@@ -3,189 +3,292 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Главная</title>
+		<title>Райан Гослинг - Портфолио</title>
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/index.css" />
 	</head>
 	<body>
-		<header>
-			<h1 hidden>Главная страница</h1>
-
+		<header class="container">
+			<div class="logo">Ryan-folio</div>
 			<nav>
-				<ul>
-					<li><a href="#">Главная</a></li>
-					<li><a href="blog.html">Блог</a></li>
+				<ul class="nav-menu">
+					<li><a href="index.html" class="active">Обо мне</a></li>
+					<li><a href="blog.html">Фильмография</a></li>
+					<li><a href="#contact">Контакты</a></li>
 				</ul>
 			</nav>
 		</header>
 
-		<main>
-			<section>
-				<h2>Обо мне</h2>
-				<p>
-					Добро пожаловать! Я веб-разработчик с 5-летним опытом в создании
-					интерактивных интерфейсов. На этом блоге я делюсь своими знаниями,
-					проектами и идеями о том, как технология меняет способ общения людей.
-					Здесь вы найдёте туториалы, кейсы из реальной практики и вдохновляющие
-					истории.
-				</p>
-				<img
-					src="assets/e22ee45dc950c0a02d3998b6dcf70dad7540d7db.png"
-					alt="Фотография автора"
-				/>
+		<main class="container">
+			<section class="hero-section">
+				<div class="hero-text">
+					<h1>Привет! Я Райан Гослинг</h1>
+					<p>
+						Популярный канадский актёр, номинант на «Оскар» и обладатель
+						«Золотого глобуса». Начинал карьеру в «Клубе Микки Мауса»,
+						прославился ролями в независимом кино и блокбастерах («Дневник
+						памяти», «Драйв», «Ла-Ла Ленд», «Бегущий по лезвию 2049», «Барби»).
+						Известен амплуа молчаливого, но харизматичного героя.
+					</p>
+					<a href="#contact" class="more-link"
+						>Связаться со мной <span class="arrow">›</span></a
+					>
+				</div>
+				<div class="hero-visual">
+					<div class="circle-badge">
+						<svg
+							class="spinning-text"
+							viewBox="0 0 100 100"
+							width="120"
+							height="120"
+						>
+							<path
+								id="circlePath"
+								fill="none"
+								d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
+							/>
+							<text
+								font-size="11"
+								font-weight="bold"
+								fill="#2D3239"
+								letter-spacing="3"
+							>
+								<textPath href="#circlePath">
+									RYAN GOSLING RYAN GOSLING
+								</textPath>
+							</text>
+						</svg>
+						<div class="arrow-down">↓</div>
+					</div>
+					<img src="assets/hero.jpg" alt="Райан Гослинг" class="hero-image" />
+				</div>
 			</section>
 
-			<section>
-				<h2>Моя карьера</h2>
+			<section class="portfolio-section">
+				<div class="portfolio-card">
+					<div class="portfolio-content">
+						<span class="category orange-text">Блокбастер</span>
+						<h2>Барби (2023)</h2>
+						<p>
+							Райан Гослинг в фильме «Барби» играет роль Кена — стереотипного
+							бойфренда главной героини, который отправляется с ней из
+							идеального Барбиленда в реальный мир. Его персонаж — комичный,
+							неуверенный в себе, но любящий Кен, который переживает кризис
+							самоопределения.
+						</p>
+					</div>
+					<div class="portfolio-image">
+						<img src="assets/photo 2.webp" alt="Райан Гослинг в роли Кена" />
+					</div>
+				</div>
 
-				<article>
-					<h3>Текущая должность</h3>
-					<p>
-						Старший веб-разработчик, ООО "DigitalStudio" (2022 — по настоящее
-						время)<br />
-						Руководство командой из 4 разработчиков, разработка архитектуры
-						фронтенда, менторство младших специалистов, внедрение новых
-						технологий в рабочий процесс.
-					</p>
-				</article>
+				<div class="portfolio-card">
+					<div class="portfolio-content">
+						<span class="category green-text">Культовое кино</span>
+						<h2>Драйв (2011)</h2>
+						<p>
+							Стильный криминальный триллер, где Райан Гослинг играет
+							безымянного каскадёра и автомеханика, подрабатывающего
+							перевозчиком преступников. Молчаливый антигерой в куртке со
+							скорпионом навсегда закрепился в поп-культуре и породил волну
+							мемов «literally me».
+						</p>
+					</div>
+					<div class="portfolio-image">
+						<img src="assets/photo 1.jpg" alt="Райан Гослинг в фильме Драйв" />
+					</div>
+				</div>
 
-				<article>
-					<h3>Опыт работы</h3>
-					<h4>Веб-разработчик, ООО "CreativeAgency" (2019 — 2022)</h4>
-					<p>
-						Создание корпоративных сайтов и веб-приложений на React и Vue.js,
-						оптимизация производительности, работа с клиентами и сбор
-						требований.
-					</p>
-
-					<h4>Фронтенд-разработчик, Стартап "TechVenture" (2018 — 2019)</h4>
-					<p>
-						Разработка пользовательского интерфейса для платформы e-learning,
-						работа с REST API и веб-стандартами.
-					</p>
-                    
-					<h4>Интернет-стажёр, Веб-студия "WebMasters" (2017 — 2018)</h4>
-					<p>
-						Первый опыт в профессиональной разработке, участие в создании и
-						поддержке различных проектов.
-					</p>
-				</article>
+				<div class="center-button">
+					<button
+						class="btn-outline"
+						onclick="window.location.href = 'blog.html'"
+					>
+						Посмотреть всю фильмографию
+					</button>
+				</div>
 			</section>
 
-			<section>
-				<h2>Образование:</h2>
-
-				<article>
-					<h3>Государственный Технический Университет, 2013 — 2017</h3>
-					<p>
-						Бакалавриат по специальности "Информатика и вычислительная техника"
-					</p>
-					<p>
-						Выпускная работа: "Оптимизация загрузки веб-страниц на мобильных
-						устройствах"
-					</p>
-				</article>
-
-				<article>
-					<h3>Курсы и сертификации</h3>
-
-					<ul>
-						<li>Advanced React Development — Coursera (2023)</li>
-						<li>UX/UI Design Fundamentals — Skillbox (2021)</li>
-						<li>Web Performance Optimization — Frontend Masters (2022)</li>
-						<li>Google Analytics Certification (2020)</li>
+			<section class="two-columns skills-section">
+				<div class="col-left">
+					<h2>Мои навыки</h2>
+				</div>
+				<div class="col-right">
+					<ul class="skills-grid">
+						<li>Актёрское мастерство</li>
+						<li>Экстремальное вождение (Драйв)</li>
+						<li>Игра на джазовом фортепиано</li>
+						<li>Продюсирование и режиссура</li>
+						<li>Вокал и игра на гитаре</li>
+						<li>Молчаливая харизма</li>
 					</ul>
-				</article>
-
-				<article>
-					<h3>Навыки:</h3>
-
-					<ul>
-						<li>
-							Программирование: JavaScript, TypeScript, React, Vue.js, HTML5,
-							CSS3, Node.js
-						</li>
-						<li>Инструменты: Git, Webpack, Docker, Figma, VS Code</li>
-						<li>Методологии: Agile, Scrum, Test-Driven Development</li>
-					</ul>
-				</article>
-
-				<article>
-					<h3>Достижения:</h3>
-
-					<ul>
-						<li>
-							Разработал платформу для управления проектами, которой пользуются
-							более 500 компаний
-						</li>
-						<li>
-							Снизил время загрузки сайта на 60% благодаря оптимизации и
-							внедрению современных стандартов
-						</li>
-						<li>
-							Провёл более 20 воркшопов и мастер-классов для начинающих
-							разработчиков
-						</li>
-						<li>
-							Организовал две конференции "Web Technologies Conference" в своем
-							городе
-						</li>
-					</ul>
-				</article>
+				</div>
 			</section>
 
-			<section>
-				<h2>Последние статьи</h2>
-
-				<article>
-					<h3>Как создать адаптивный дизайн за 30 минут</h3>
-					<p>Опубликовано: <time datetime="2024-12-15">15 декабря 2024</time></p>
+			<section class="two-columns work-section">
+				<div class="col-left">
+					<h2>Карьера</h2>
 					<p>
-						В этой статье я расскажу о ключевых принципах создания мобильных
-						интерфейсов, которые одинаково хорошо выглядят на всех устройствах.
-						Вы узнаете о медиа-запросах, гибких сетках и практических примерах
-						кода, которые можно использовать прямо сейчас.
+						Ключевые этапы моего творческого пути: от детских шоу до главных
+						голливудских блокбастеров и номинаций на премию «Оскар».
 					</p>
-				</article>
+				</div>
+				<div class="col-right work-list">
+					<article class="job-item">
+						<div class="job-icon circle-orange-blue"></div>
+						<div class="job-text">
+							<span class="job-meta"
+								>The Mickey Mouse Club - (1993 - 1995)</span
+							>
+							<h3>Старт карьеры</h3>
+							<p>
+								Выступал в знаменитом детском шоу на канале Disney вместе с
+								будущими мировыми звездами: Джастином Тимберлейком, Бритни Спирс
+								и Кристиной Агилерой.
+							</p>
+						</div>
+					</article>
 
-				<article>
-					<h3>Как создать адаптивный дизайн за 30 минут</h3>
-					<p>Опубликовано: <time datetime="2024-12-15">15 декабря 2024</time></p>
+					<article class="job-item">
+						<div class="job-icon diamond-orange"></div>
+						<div class="job-text">
+							<span class="job-meta">Дневник памяти - (2004)</span>
+							<h3>Мировой прорыв</h3>
+							<p>
+								Сыграл Ноя Кэлхуна в культовой романтической драме. Эта роль
+								принесла мне первую широкую мировую известность и статус
+								романтического героя.
+							</p>
+						</div>
+					</article>
+
+					<article class="job-item">
+						<div class="job-icon circle-blue"></div>
+						<div class="job-text">
+							<span class="job-meta">Ла-Ла Ленд - (2016)</span>
+							<h3>Признание критиков</h3>
+							<p>
+								Роль джазового пианиста Себастьяна. Ради фильма я научился
+								играть на фортепиано с нуля. Получил «Золотой глобус» и
+								номинацию на «Оскар» за лучшую мужскую роль.
+							</p>
+						</div>
+					</article>
+				</div>
+			</section>
+
+			<section class="hobby-section">
+				<div class="hobby-header">
+					<h2>Увлечения вне кино</h2>
 					<p>
-						В этой статье я расскажу о ключевых принципах создания мобильных
-						интерфейсов, которые одинаково хорошо выглядят на всех устройствах.
-						Вы узнаете о медиа-запросах, гибких сетках и практических примерах
-						кода, которые можно использовать прямо сейчас.
+						Помимо актёрской игры, я пишу собственную музыку, снимаю инди-кино
+						как режиссёр и даже занимаюсь столярным делом в свободное время.
 					</p>
-				</article>
-
-				<article>
-					<h3>Как создать адаптивный дизайн за 30 минут</h3>
-					<p>Опубликовано: <time datetime="2024-12-15">15 декабря 2024</time></p>
-					<p>
-						В этой статье я расскажу о ключевых принципах создания мобильных
-						интерфейсов, которые одинаково хорошо выглядят на всех устройствах.
-						Вы узнаете о медиа-запросах, гибких сетках и практических примерах
-						кода, которые можно использовать прямо сейчас.
-					</p>
-				</article>
-
-				<button onclick="window.location.href = 'blog.html'">
-					Посмотреть все статьи
-				</button>
+				</div>
+				<div class="hobby-grid">
+					<div class="hobby-card tall">
+						<img src="assets/hobby 1.jpg" alt="Dead Man's Bones" />
+						<div class="hobby-overlay">
+							<h3>Dead Man's Bones</h3>
+							<p>
+								В 2009 году основал инди-рок группу. Мы выпустили альбом, где я
+								пою, играю на фортепиано, гитаре и виолончели.
+							</p>
+						</div>
+					</div>
+					<div class="hobby-card tall">
+						<img src="assets/hobby 2.jpg" alt="Режиссура" />
+						<div class="hobby-overlay">
+							<h3>Режиссура</h3>
+							<p>
+								Снял свой первый авторский фильм «Как поймать монстра» (Lost
+								River) в 2014 году. Это нео-нуарная сказка.
+							</p>
+						</div>
+					</div>
+					<div class="hobby-card wide">
+						<img src="assets/hobby 3.jpg" alt="Столярное дело" />
+						<div class="hobby-overlay">
+							<h3>Столярное дело</h3>
+							<p>
+								Люблю работать руками. Кухонный стол, который мой персонаж
+								делает в «Дневнике памяти», я смастерил сам.
+							</p>
+						</div>
+					</div>
+					<div class="hobby-card wide">
+						<img src="assets/hobby 4.jpg" alt="Балет" />
+						<div class="hobby-overlay">
+							<h3>Любовь к танцам</h3>
+							<p>
+								В детстве я занимался балетом, что сильно помогло мне позже при
+								подготовке к сложным хореографическим сценам.
+							</p>
+						</div>
+					</div>
+				</div>
 			</section>
 		</main>
 
-		<footer>
-			<h2>Контакты</h2>
-			<p>
-				Email: <a href="mailto:alex@creativeblog.ru">alex@creativeblog.ru</a>
-			</p>
-			<p>Телефон: <a href="tel:+79991234567">+7 (999) 123-45-67</a></p>
-			<h3>Социальные сети</h3>
-			<p>
-				<a href="#">Instagram</a> | <a href="#">Twitter</a> |
-				<a href="#">LinkedIn</a> |
-				<a href="#">Github</a>
-			</p>
+		<footer id="contact" class="site-footer">
+			<div class="container footer-content">
+				<div class="footer-info">
+					<h2>Давайте поработаем <br />над новым фильмом!</h2>
+					<p>
+						Email:
+						<a href="mailto:agent@gosling-team.com">agent@gosling-team.com</a
+						><br />
+						Телефон: <a href="tel:+79991234567">+7 (999) 123-45-67</a>
+					</p>
+					<div class="socials">
+						<a href="#" aria-label="VK">
+							<img
+								src="assets/VK ico.png"
+								alt="VK"
+								style="width: 24px; height: 24px; display: inline-block"
+							/>
+						</a>
+						<a href="#" aria-label="Telegram">
+							<img
+								src="assets/TG ico.png"
+								alt="Telegram"
+								style="width: 24px; height: 24px; display: inline-block"
+							/>
+						</a>
+						<a href="#" aria-label="GitHub">
+							<img
+								src="assets/GH ico.png"
+								alt="GitHub"
+								style="width: 24px; height: 24px; display: inline-block"
+							/>
+						</a>
+					</div>
+					<p class="copyright">© 2026 Ryan Gosling, Inc</p>
+				</div>
+				<div class="footer-form">
+					<form action="#" method="get">
+						<div class="form-group">
+							<label for="email">Ваш Email</label>
+							<input
+								type="email"
+								id="email"
+								placeholder="Например: nolan@director.com"
+								required
+							/>
+						</div>
+						<div class="form-group">
+							<label for="message">Предложение о съемках</label>
+							<textarea
+								id="message"
+								placeholder="Опишите сценарий вашего проекта..."
+								rows="4"
+								required
+							></textarea>
+						</div>
+						<button type="submit" class="btn-submit">Отправить сценарий</button>
+					</form>
+				</div>
+			</div>
 		</footer>
 	</body>
 </html>
