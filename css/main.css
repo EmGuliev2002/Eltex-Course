@@ -1,0 +1,161 @@
+/* Сброс стилей */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Настройка базового размера шрифта */
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+/* Подключение шрифта */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Глобальные переменные для цветов. */
+:root {
+    --color-primary: #2D3239;        /* Основной темный цвет текста и заголовков */
+    --color-text: #2D3239;           /* Цвет обычного текста */
+    --color-text-light: #5A5F66;     /* Приглушенный цвет текста (для параграфов) */
+    --color-background: #FFFFFF;     /* Цвет фона страницы */
+    --color-accent-orange: #FF6B4A;  /* Оранжевый акцент */
+    --color-accent-green: #4CAF50;   /* Зеленый акцент (hover, кнопки) */
+    --color-pink: #FFE9E5;           /* Фоновый розовый цвет (для статей) */
+    --color-gray: #F5F5F5;           /* Фоновый серый цвет (для статей и футера) */
+    --color-border: #E5E5E5;         /* Цвет рамок и разделительных линий */
+}
+
+/* Настройки тела документа: применение глобального шрифта и цвета текста через переменные */
+body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    background-color: var(--color-background);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Сброс стилей для списков, ссылок и кнопок */
+ul, ol { list-style: none; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+input, button, textarea, select { font: inherit; border: none; outline: none; background: none; }
+button { cursor: pointer; }
+
+/* Общий контейнер, ограничивающий ширину контента */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* 
+  Стилизация текста: заголовки и параграфы. 
+  Настроены шрифты, размеры и толщина (без прямого задания цвета, кроме использования переменных)
+*/
+h1, h2, h3, h4 { color: var(--color-primary); }
+
+h1 { font-weight: 700; font-size: 5.2rem; line-height: 1.2; margin-bottom: 2rem; }
+h2 { font-weight: 700; font-size: 4rem; line-height: 1.3; margin-bottom: 2rem; }
+h3 { font-weight: 700; font-size: 3.2rem; line-height: 1.4; margin-bottom: 1.5rem; }
+p { font-weight: 400; font-size: 1.6rem; line-height: 1.6; color: var(--color-text-light); }
+
+/* Шапка и меню */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.4rem 0;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 2.4rem;
+    color: var(--color-primary);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 3.2rem;
+}
+
+/* Стилизация ссылок в меню */
+.nav-menu a {
+    font-weight: 500;
+    font-size: 1.6rem;
+    color: var(--color-text);
+    transition: all 0.3s ease; 
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+    color: var(--color-accent-green);
+}
+
+/* Футер */
+.site-footer {
+    background-color: var(--color-primary);
+    padding: 6rem 0;
+    margin-top: 8rem;
+}
+
+/* Сетка футера */
+.footer-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    color: var(--color-gray);
+}
+
+.footer-info h2 { font-size: 4rem; margin-bottom: 2.4rem; color: #fff; }
+.footer-info p { margin-bottom: 1.6rem; color: var(--color-gray); }
+.footer-info a { color: var(--color-gray); transition: opacity 0.3s ease; }
+.footer-info a:hover { opacity: 0.8; }
+
+.socials { margin: 2.4rem 0; display: flex; gap: 2rem; }
+.socials a { transition: transform 0.3s ease; }
+.socials a:hover { transform: scale(1.1);}
+
+.copyright { color: var(--color-gray); font-size: 1.4rem; }
+
+/* Форма в футере */
+.form-group { margin-bottom: 2rem; }
+.form-group label {
+    display: block;
+    font-weight: 500;
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+    color: var(--color-gray);
+}
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 1.2rem 1.6rem;
+    background-color: white;
+    border: 1px solid var(--color-border);
+    border-radius: 0.8rem;
+    font-size: 1.6rem;
+    transition: border-color 0.3s ease;
+}
+.form-group input:focus, .form-group textarea:focus {
+    border-color: var(--color-accent-green);
+}
+.btn-submit {
+    background-color: var(--color-accent-green);
+    color: white;
+    padding: 1.2rem 3.2rem;
+    border-radius: 4rem;
+    font-weight: 600;
+    font-size: 1.6rem;
+    transition: background-color 0.3s ease;
+}
+.btn-submit:hover { background-color: #3f8f40; }
+
+/* Адаптивность футера */
+@media (max-width: 768px) {
+    .footer-content { grid-template-columns: 1fr; gap: 4rem; }
+}

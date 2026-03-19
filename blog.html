@@ -3,102 +3,262 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Блог</title>
+		<title>Фильмография - Райан Гослинг</title>
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/blog.css" />
 	</head>
 	<body>
-		<header>
-            <h1 hidden>Блог</h1>
-
+		<header class="container">
+			<div class="logo">Ryan-folio</div>
 			<nav>
-				<ul>
-					<li><a href="index.html">Главная</a></li>
-					<li><a href="#">Блог</a></li>
+				<ul class="nav-menu">
+					<li><a href="index.html">Обо мне</a></li>
+					<li><a href="blog.html" class="active">Фильмография</a></li>
+					<li><a href="index.html#contact">Контакты</a></li>
 				</ul>
 			</nav>
 		</header>
-        <main>
-            <h1>Статьи</h1>
-            <section>
-                <article>
-					<h3>Как создать адаптивный дизайн за 30 минут</h3>
-					<p>Опубликовано: <time datetime="2024-12-15">15 декабря 2024</time></p>
-					<p>
-						В этой статье я расскажу о ключевых принципах создания мобильных
-						интерфейсов, которые одинаково хорошо выглядят на всех устройствах.
-						Вы узнаете о медиа-запросах, гибких сетках и практических примерах
-						кода, которые можно использовать прямо сейчас.
-					</p>
+
+		<main class="container">
+			<section class="blog-header">
+				<h1>Моя фильмография</h1>
+				<p>
+					Здесь собраны мои любимые проекты, мысли о персонажах и небольшие
+					истории со съёмочных площадок. Добро пожаловать за кулисы.
+				</p>
+			</section>
+
+			<section class="featured-article">
+				<article class="featured-card">
+					<div class="featured-content">
+						<h2>Бегущий по лезвию 2049 (2017)</h2>
+						<p>
+							Роль офицера Кея (К) стала для меня одним из самых глубоких
+							погружений в атмосферу киберпанка. Работа с визионером Дени
+							Вильнёвом, оператором Роджером Дикинсом и легендарным Харрисоном
+							Фордом — это незабываемый опыт, который навсегда изменил мой
+							взгляд на кинопроизводство.
+						</p>
+						<time class="article-date" datetime="2017-10-06"
+							>6 Октября, 2017</time
+						>
+					</div>
+					<div class="featured-image">
+						<img
+							src="assets/photo 3.jpg"
+							alt="Кадр из фильма Бегущий по лезвию 2049"
+						/>
+					</div>
+				</article>
+			</section>
+
+			<section class="articles-grid">
+				<article class="article-card">
+					<a href="#">
+						<div class="article-image">
+							<img src="assets/photo 4.jpg" alt="Славные парни" />
+						</div>
+						<div class="article-content">
+							<h3>Славные парни (2016)</h3>
+							<p>
+								Комедийный детектив, где мы с Расселом Кроу расследуем дело в
+								Лос-Анджелесе 70-х. Играть нелепого детектива Холланда Марча
+								было сплошным удовольствием.
+							</p>
+							<time class="article-date" datetime="2016-05-15"
+								>15 Мая, 2016</time
+							>
+						</div>
+					</a>
 				</article>
 
-                <article>
-					<h3>Как создать адаптивный дизайн за 30 минут</h3>
-					<p>Опубликовано: <time datetime="2024-12-15">15 декабря 2024</time></p>
-					<p>
-						В этой статье я расскажу о ключевых принципах создания мобильных
-						интерфейсов, которые одинаково хорошо выглядят на всех устройствах.
-						Вы узнаете о медиа-запросах, гибких сетках и практических примерах
-						кода, которые можно использовать прямо сейчас.
-					</p>
+				<article class="article-card">
+					<a href="#">
+						<div class="article-image">
+							<img src="assets/photo 5.jpg" alt="Место под соснами" />
+						</div>
+						<div class="article-content">
+							<h3>Место под соснами (2012)</h3>
+							<p>
+								История о мотокаскадере Люке, который решает грабить банки ради
+								своей семьи. Эмоционально тяжелая, но невероятно важная для меня
+								роль.
+							</p>
+							<time class="article-date" datetime="2012-09-07"
+								>7 Сентября, 2012</time
+							>
+						</div>
+					</a>
 				</article>
 
-                <article>
-					<h3>Как создать адаптивный дизайн за 30 минут</h3>
-					<p>Опубликовано: <time datetime="2024-12-15">15 декабря 2024</time></p>
-					<p>
-						В этой статье я расскажу о ключевых принципах создания мобильных
-						интерфейсов, которые одинаково хорошо выглядят на всех устройствах.
-						Вы узнаете о медиа-запросах, гибких сетках и практических примерах
-						кода, которые можно использовать прямо сейчас.
-					</p>
+				<article class="article-card">
+					<a href="#">
+						<div class="article-image">
+							<img src="assets/photo 6.jpg" alt="Игра на понижение" />
+						</div>
+						<div class="article-content">
+							<h3>Игра на понижение (2015)</h3>
+							<p>
+								Роль Джареда Веннетта позволила мне примерить костюм циничного
+								брокера с Уолл-стрит. Отличный сценарий, основанный на реальных
+								событиях.
+							</p>
+							<time class="article-date" datetime="2015-12-11"
+								>11 Декабря, 2015</time
+							>
+						</div>
+					</a>
 				</article>
 
-                <article>
-					<h3>Как создать адаптивный дизайн за 30 минут</h3>
-					<p>Опубликовано: <time datetime="2024-12-15">15 декабря 2024</time></p>
-					<p>
-						В этой статье я расскажу о ключевых принципах создания мобильных
-						интерфейсов, которые одинаково хорошо выглядят на всех устройствах.
-						Вы узнаете о медиа-запросах, гибких сетках и практических примерах
-						кода, которые можно использовать прямо сейчас.
-					</p>
+				<article class="article-card">
+					<a href="#">
+						<div class="article-image">
+							<img src="assets/photo 7.jpg" alt="Человек на Луне" />
+						</div>
+						<div class="article-content">
+							<h3>Человек на Луне (2018)</h3>
+							<p>
+								Сыграть Нила Армстронга — огромная ответственность. Мы
+								постарались показать не только исторический полет, но и глубокую
+								личную драму человека.
+							</p>
+							<time class="article-date" datetime="2018-10-12"
+								>12 Октября, 2018</time
+							>
+						</div>
+					</a>
 				</article>
 
-                <article>
-					<h3>Как создать адаптивный дизайн за 30 минут</h3>
-					<p>Опубликовано: <time datetime="2024-12-15">15 декабря 2024</time></p>
-					<p>
-						В этой статье я расскажу о ключевых принципах создания мобильных
-						интерфейсов, которые одинаково хорошо выглядят на всех устройствах.
-						Вы узнаете о медиа-запросах, гибких сетках и практических примерах
-						кода, которые можно использовать прямо сейчас.
-					</p>
+				<article class="article-card">
+					<a href="#">
+						<div class="article-image">
+							<img src="assets/photo 8.jpg" alt="Мартовские иды" />
+						</div>
+						<div class="article-content">
+							<h3>Мартовские иды (2011)</h3>
+							<p>
+								Напряженный политический триллер режиссера Джорджа Клуни. Мой
+								персонаж, Стивен Майерс, проходит путь от идеалиста до жесткого
+								политтехнолога.
+							</p>
+							<time class="article-date" datetime="2011-08-31"
+								>31 Августа, 2011</time
+							>
+						</div>
+					</a>
 				</article>
-            </section>
-            
-            <section>
-                <h2>Создать статью</h2>
-                <form action="" method="get">
-                    <p><label for="header"></label>
-                    <input id="header" type="text" name="Header" placeholder="Заголовок" size="50"></p>
-                    <p><label for="text"></label>
-                    <textarea id="text" name="Text" placeholder="Текст статьи" rows="10" cols="50"></textarea></p>
-                    <p><button type="submit">Добавить</button></p>
-                </form>
-            </section>
-        </main>
 
-        <footer>
-			<h2>Контакты</h2>
-			<p>
-				Email: <a href="mailto:alex@creativeblog.ru">alex@creativeblog.ru</a>
-			</p>
-			<p>Телефон: <a href="tel:+79991234567">+7 (999) 123-45-67</a></p>
-			<h3>Социальные сети</h3>
-			<p>
-				<a href="#">Instagram</a> | <a href="#">Twitter</a> |
-				<a href="#">LinkedIn</a> |
-				<a href="#">Github</a>
-			</p>
+				<article class="article-card">
+					<a href="#">
+						<div class="article-image">
+							<img src="assets/photo 9.jpg" alt="Каскадёры" />
+						</div>
+						<div class="article-content">
+							<h3>Каскадёры (2024)</h3>
+							<p>
+								Прекрасная дань уважения всем каскадерам Голливуда. Много
+								экшена, трюков и искрометного юмора в дуэте с невероятной Эмили
+								Блант.
+							</p>
+							<time class="article-date" datetime="2024-05-03"
+								>3 Мая, 2024</time
+							>
+						</div>
+					</a>
+				</article>
+			</section>
+
+			<div class="pagination">
+				<a href="#" class="pagination-next">Больше фильмов →</a>
+			</div>
+
+			<section class="create-article-section">
+				<h2>Добавить запись в дневник (памяти)</h2>
+				<form action="#" method="get" class="article-form">
+					<div class="form-group">
+						<label for="header">Название фильма / Заголовок</label>
+						<input
+							id="header"
+							type="text"
+							name="Header"
+							placeholder="Например: Съемки в Ла-Ла Ленде"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<label for="text">Ваши воспоминания и мысли</label>
+						<textarea
+							id="text"
+							name="Text"
+							placeholder="Расскажите о процессе съемок..."
+							rows="10"
+							required
+						></textarea>
+					</div>
+					<button type="submit" class="btn-submit">Опубликовать</button>
+				</form>
+			</section>
+		</main>
+
+		<footer id="contact" class="site-footer">
+			<div class="container footer-content">
+				<div class="footer-info">
+					<h2>Давайте поработаем <br />над новым фильмом!</h2>
+					<p>
+						Email:
+						<a href="mailto:agent@gosling-team.com">agent@gosling-team.com</a
+						><br />
+						Телефон: <a href="tel:+79991234567">+7 (999) 123-45-67</a>
+					</p>
+					<div class="socials">
+						<a href="#">
+							<img
+								src="assets/VK ico.png"
+								alt="VK"
+								style="width: 24px; height: 24px; display: inline-block"
+							/>
+						</a>
+						<a href="#">
+							<img
+								src="assets/TG ico.png"
+								alt="Telegram"
+								style="width: 24px; height: 24px; display: inline-block"
+							/>
+						</a>
+						<a href="#">
+							<img
+								src="assets/GH ico.png"
+								alt="GitHub"
+								style="width: 24px; height: 24px; display: inline-block"
+							/>
+						</a>
+					</div>
+					<p class="copyright">© 2026 Ryan Gosling, Inc</p>
+				</div>
+				<div class="footer-form">
+					<form action="#" method="get">
+						<div class="form-group">
+							<label for="email">Ваш Email</label>
+							<input
+								type="email"
+								id="email"
+								placeholder="Например: nolan@director.com"
+								required
+							/>
+						</div>
+						<div class="form-group">
+							<label for="message">Предложение о съемках</label>
+							<textarea
+								id="message"
+								placeholder="Опишите сценарий вашего проекта..."
+								rows="4"
+								required
+							></textarea>
+						</div>
+						<button type="submit" class="btn-submit">Отправить сценарий</button>
+					</form>
+				</div>
+			</div>
 		</footer>
 	</body>
 </html>
