@@ -1,130 +1,411 @@
 .blog-header {
-    text-align: left;
-    padding: 4rem 0 2rem;
+	text-align: left;
+	padding: 4rem 0 2rem;
 }
 
 .blog-header h1 {
-    margin-bottom: 1.6rem;
-    color: var(--color-primary);
+	margin-bottom: 1.6rem;
+	color: var(--color-primary);
 }
 
 .blog-header p {
-    max-width: 60rem;
-    margin: 0 0 2rem 0;
-    font-size: 1.8rem;
-    color: var(--color-text-light);
+	max-width: 60rem;
+	margin: 0 0 2rem 0;
+	font-size: 1.8rem;
+	color: var(--color-text-light);
 }
 
 /* Выделенная статья */
-.featured-article { margin-bottom: 6rem; }
+.featured-article {
+	margin-bottom: 6rem;
+}
 
 /* Использую Grid для расположения текста и картинки сбоку */
 .featured-card {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    background-color: var(--color-gray);
-    border-radius: 2rem;
-    overflow: hidden;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4rem;
+	align-items: center;
+	background-color: var(--color-gray);
+	border-radius: 2rem;
+	overflow: hidden;
 }
 
-.featured-content { padding: 4rem; }
-.featured-content h2 { font-size: 3.2rem; margin-bottom: 2rem; color: var(--color-primary); }
-.featured-image { height: 100%; }
-.featured-image img { width: 100%; height: 100%; object-fit: cover; }
+.featured-content {
+	padding: 4rem;
+}
+.featured-content h2 {
+	font-size: 3.2rem;
+	margin-bottom: 2rem;
+	color: var(--color-primary);
+}
+.featured-image {
+	height: 100%;
+}
+.featured-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
 
 /* Сетка остальных статей*/
 .articles-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3rem;
-    margin-bottom: 4rem;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 3rem;
+	margin-bottom: 4rem;
 }
 
 .article-card {
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
-    border-radius: 1.6rem;
-    overflow: hidden;
-    /* Анимация при наведении на саму карточку */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+	background: var(--color-background);
+	border: 1px solid var(--color-border);
+	border-radius: 1.6rem;
+	overflow: hidden;
+	/* Анимация при наведении на саму карточку */
+	transition:
+		transform 0.3s ease,
+		box-shadow 0.3s ease;
 }
 
 .article-card:hover {
-    transform: translateY(-0.5rem);
-    box-shadow: 0 1rem 3rem rgba(0,0,0,0.1);
+	transform: translateY(-0.5rem);
+	box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
 }
 
-.article-image { height: 22rem; overflow: hidden; }
+.article-image {
+	height: 22rem;
+	overflow: hidden;
+}
 .article-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.5s ease;
 }
-.article-card:hover .article-image img { transform: scale(1.05); }
+.article-card:hover .article-image img {
+	transform: scale(1.05);
+}
 
-.article-content { padding: 2rem; }
-.article-content h3 { font-size: 2rem; margin-bottom: 1.2rem; line-height: 1.4; color: var(--color-primary); }
-.article-content p { font-size: 1.4rem; margin-bottom: 1.6rem; color: var(--color-text-light); }
-.article-date { display: block; color: #999; font-size: 1.4rem; font-weight: 500; text-align: left; }
+.article-content {
+	padding: 2rem;
+}
+.article-content h3 {
+	font-size: 2rem;
+	margin-bottom: 1.2rem;
+	line-height: 1.4;
+	color: var(--color-primary);
+}
+.article-content p {
+	font-size: 1.4rem;
+	margin-bottom: 1.6rem;
+	color: var(--color-text-light);
+}
+.article-date {
+	display: block;
+	color: #999;
+	font-size: 1.4rem;
+	font-weight: 500;
+	text-align: left;
+}
 
 /* Анимация заголовка внутри карточки при наведении */
-.article-card a { text-decoration: none; }
+.article-card a {
+	text-decoration: none;
+}
 .article-card a:hover h3 {
-    color: var(--color-accent-green);
-    text-decoration: underline;
-    text-underline-offset: 4px;
+	color: var(--color-accent-green);
+	text-decoration: underline;
+	text-underline-offset: 4px;
 }
 
 /*  Пагинация */
-.pagination { display: flex; justify-content: flex-end; padding: 2rem 0 4rem; }
+.pagination {
+	display: flex;
+	justify-content: flex-end;
+	padding: 2rem 0 4rem;
+}
 .pagination-next {
-    font-weight: 600;
-    font-size: 1.8rem;
-    color: var(--color-accent-green);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    border: 2px solid var(--color-accent-green);
-    padding: 1rem 2.4rem;
-    border-radius: 4rem;
-    background-color: transparent;
+	font-weight: 600;
+	font-size: 1.8rem;
+	color: var(--color-accent-green);
+	text-decoration: none;
+	transition: all 0.3s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	border: 2px solid var(--color-accent-green);
+	padding: 1rem 2.4rem;
+	border-radius: 4rem;
+	background-color: transparent;
 }
 .pagination-next:hover {
-    background-color: var(--color-accent-green);
-    color: white;
-    gap: 1rem;
+	background-color: var(--color-accent-green);
+	color: white;
+	gap: 1rem;
 }
 
 /* Форма добавления статьи */
-.create-article-section { padding: 4rem 0; border-top: 1px solid var(--color-border); }
-.create-article-section h2 { margin-bottom: 3rem; color: var(--color-primary); }
-.article-form { max-width: 60rem; }
-.article-form .form-group { margin-bottom: 2rem; }
-.article-form label { display: block; font-weight: 500; font-size: 1.4rem; margin-bottom: 0.8rem; color: var(--color-text); }
-.article-form input, .article-form textarea { width: 100%; padding: 1.2rem 1.6rem; border: 1px solid var(--color-border); border-radius: 0.8rem; font-size: 1.6rem; }
-.article-form input:focus, .article-form textarea:focus { border-color: var(--color-accent-green); }
+.create-article-section {
+	padding: 4rem 0;
+	border-top: 1px solid var(--color-border);
+}
+.create-article-section h2 {
+	margin-bottom: 3rem;
+	color: var(--color-primary);
+}
+.article-form {
+	max-width: 60rem;
+}
+.article-form .form-group {
+	margin-bottom: 2rem;
+}
+.article-form label {
+	display: block;
+	font-weight: 500;
+	font-size: 1.4rem;
+	margin-bottom: 0.8rem;
+	color: var(--color-text);
+}
+.article-form input,
+.article-form textarea {
+	width: 100%;
+	padding: 1.2rem 1.6rem;
+	border: 1px solid var(--color-border);
+	border-radius: 0.8rem;
+	font-size: 1.6rem;
+}
+.article-form input:focus,
+.article-form textarea:focus {
+	border-color: var(--color-accent-green);
+}
 
 /* @media запросы)*/
 
 /* При ширине экрана до 1024px: делаем 2 колонки вместо 3 */
 @media (max-width: 1024px) {
-    .articles-grid { grid-template-columns: repeat(2, 1fr); }
+	.articles-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
 }
 
 /* Адаптивность */
 @media (max-width: 800px) {
-    .articles-grid {
-        grid-template-columns: 1fr;
-    }
-    .featured-card {
-        grid-template-columns: 1fr; 
-    }
-    .featured-content { padding: 2rem; }
-    .blog-header { padding: 3rem 0 1rem; }
-    .blog-header h1 { font-size: 4rem; }
+	.articles-grid {
+		grid-template-columns: 1fr;
+	}
+	.featured-card {
+		grid-template-columns: 1fr;
+	}
+	.featured-content {
+		padding: 2rem;
+	}
+	.blog-header {
+		padding: 3rem 0 1rem;
+	}
+	.blog-header h1 {
+		font-size: 4rem;
+	}
+}
+
+/* Админ-панель */
+.admin-panel {
+	position: fixed;
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	background: var(--color-background);
+	padding: 2rem 1rem;
+	border: 1px solid var(--color-border);
+	border-right: none;
+	border-radius: 1.6rem 0 0 1.6rem;
+	box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+	z-index: 100;
+}
+
+.admin-btn {
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.2s ease;
+}
+
+.admin-btn img {
+	width: 28px;
+	height: 28px;
+	object-fit: contain;
+}
+
+.admin-btn:hover {
+	transform: scale(1.15);
+}
+
+/* Диалог статистики */
+.stats-dialog {
+	margin: auto;
+	padding: 0;
+	border: none;
+	border-radius: 1.2rem;
+	box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+	background: transparent;
+}
+
+.stats-dialog::backdrop {
+	background: rgba(45, 50, 57, 0.6);
+	backdrop-filter: blur(4px);
+}
+
+.dialog-content {
+	background: var(--color-background);
+	padding: 3rem;
+	min-width: 420px;
+	position: relative;
+	text-align: left;
+	border-radius: 1.2rem;
+}
+
+.close-btn {
+	position: absolute;
+	top: 1.5rem;
+	right: 1.5rem;
+	font-size: 2.8rem;
+	color: #999;
+	transition: color 0.3s ease;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.close-btn:hover {
+	color: var(--color-primary);
+}
+
+.dialog-content h3 {
+	font-size: 2rem;
+	margin-bottom: 2.5rem;
+	color: var(--color-primary);
+	font-weight: 700;
+}
+
+.stats-grid {
+	display: flex;
+	gap: 1.5rem;
+}
+
+.stat-card {
+	flex: 1;
+	border: 1px solid var(--color-border);
+	border-radius: 0.8rem;
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.stat-label {
+	font-size: 1.3rem;
+	color: #666;
+}
+
+.stat-value {
+	font-size: 2.8rem;
+	font-weight: 700;
+	color: var(--color-primary);
+}
+
+/* Форма добавления статьи */
+/* Анимация раскрытия формы */
+.form-collapse-wrapper {
+	display: grid;
+	grid-template-rows: 0fr;
+	transition: grid-template-rows 0.4s ease-out;
+}
+
+.form-collapse-wrapper.open {
+	grid-template-rows: 1fr;
+}
+
+.form-content-inner {
+	overflow: hidden;
+}
+
+/* Внутренний контейнер формы */
+.form-box {
+	background: var(--color-background);
+	padding: 3rem 0 4rem 0;
+	border-top: 1px solid var(--color-border);
+}
+
+.form-box h2 {
+	font-size: 2.4rem;
+	margin-bottom: 3rem;
+	color: var(--color-primary);
+	font-weight: 700;
+}
+
+.article-form {
+	max-width: 60rem;
+}
+
+.article-form .form-group {
+	margin-bottom: 2rem;
+}
+
+.article-form label {
+	display: block;
+	font-weight: 500;
+	font-size: 1.4rem;
+	margin-bottom: 0.8rem;
+	color: var(--color-text);
+}
+
+.article-form input,
+.article-form textarea {
+	width: 100%;
+	padding: 1.2rem 1.6rem;
+	border: 1px solid var(--color-border);
+	border-radius: 0.8rem;
+	font-size: 1.6rem;
+	transition: border-color 0.3s ease;
+}
+
+/* Цвет плейсхолдеров */
+.article-form input::placeholder,
+.article-form textarea::placeholder {
+	color: #bbb;
+}
+
+/* Зеленая обводка при клике*/
+.article-form input:focus,
+.article-form textarea:focus {
+	border-color: var(--color-accent-green);
+}
+
+/* Кнопки "Добавить" и "Отмена" */
+.form-actions {
+	display: flex;
+	gap: 1.5rem;
+	margin-top: 2rem;
+}
+
+.btn-cancel {
+	background-color: var(--color-background);
+	color: var(--color-accent-orange);
+	padding: 1.2rem 3.2rem;
+	border-radius: 4rem;
+	font-weight: 600;
+	font-size: 1.6rem;
+	border: 1px solid var(--color-accent-orange);
+	transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+	background-color: var(--color-accent-orange);
+	color: var(--color-background);
 }
