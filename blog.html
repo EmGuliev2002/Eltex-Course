@@ -20,6 +20,32 @@
 			</nav>
 		</header>
 
+		<aside class="admin-panel">
+			<button id="btnCreatePost" class="admin-btn" title="Добавить статью">
+				<img src="assets/Post add.png" alt="Добавить статью" />
+			</button>
+			<button id="btnShowStats" class="admin-btn" title="Просмотр статистики">
+				<img src="assets/Vector.png" alt="Просмотр статистики" />
+			</button>
+		</aside>
+
+		<dialog id="statsDialog" class="stats-dialog">
+			<div class="dialog-content">
+				<button id="closeDialog" class="close-btn">&times;</button>
+				<h3>Статистика страницы</h3>
+				<div class="stats-grid">
+					<div class="stat-card">
+						<span class="stat-label">Всего статей:</span>
+						<span class="stat-value" id="postCount">0</span>
+					</div>
+					<div class="stat-card">
+						<span class="stat-label">Комментарии:</span>
+						<span class="stat-value">0</span>
+					</div>
+				</div>
+			</div>
+		</dialog>
+
 		<main class="container">
 			<section class="blog-header">
 				<h1>Моя фильмография</h1>
@@ -173,31 +199,28 @@
 				<a href="#" class="pagination-next">Больше фильмов →</a>
 			</div>
 
-			<section class="create-article-section">
-				<h2>Добавить запись в дневник (памяти)</h2>
-				<form action="#" method="get" class="article-form">
-					<div class="form-group">
-						<label for="header">Название фильма / Заголовок</label>
-						<input
-							id="header"
-							type="text"
-							name="Header"
-							placeholder="Например: Съемки в Ла-Ла Ленде"
-							required
-						/>
+			<section id="formSection">
+				<div class="form-collapse-wrapper">
+					<div class="form-content-inner">
+						<div class="form-box">
+							<h2>Добавить запись в дневник (памяти)</h2>
+							<form action="#" method="get" class="article-form" id="addPostForm">
+								<div class="form-group">
+									<label for="header">Название фильма / Заголовок</label>
+									<input id="header" type="text" name="Header" placeholder="Например: Съемки в Ла-Ла Ленде" required />
+								</div>
+								<div class="form-group">
+									<label for="text">Ваши воспоминания и мысли</label>
+									<textarea id="text" name="Text" placeholder="Расскажите о процессе съемок..." rows="6" required></textarea>
+								</div>
+								<div class="form-actions">
+									<button type="submit" class="btn-submit">Добавить</button>
+									<button type="button" class="btn-cancel" id="btnCancel">Отмена</button>
+								</div>
+							</form>
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="text">Ваши воспоминания и мысли</label>
-						<textarea
-							id="text"
-							name="Text"
-							placeholder="Расскажите о процессе съемок..."
-							rows="10"
-							required
-						></textarea>
-					</div>
-					<button type="submit" class="btn-submit">Опубликовать</button>
-				</form>
+				</div>
 			</section>
 		</main>
 
@@ -261,5 +284,6 @@
 				</div>
 			</div>
 		</footer>
+		<script src="js/blog.js"></script>
 	</body>
 </html>
