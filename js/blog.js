@@ -11,19 +11,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const articlesGrid = document.querySelector('.articles-grid')
 	const postTemplate = document.getElementById('postTemplate')
-    const formSection = document.getElementById('formSection')
+	const formSection = document.getElementById('formSection')
+	const mainContent = document.querySelector('main')
+
+	const featuredArticleSection = document.querySelector('.featured-article')
+	const featuredPostTemplate = document.getElementById('featuredPostTemplate')
 
 	// Скрытие и раскрытие формы с анимацией
 
-	// Раскрыть форму по кнопке
 	btnCreatePost.addEventListener('click', () => {
-        formWrapper.classList.add('open')
+		formWrapper.classList.add('open')
 		setTimeout(() => {
-			formSection.scrollIntoView({ behavior: 'smooth', block: 'center' })
+			if (formSection) {
+				formSection.scrollIntoView({ behavior: 'smooth', block: 'center' })
+			}
 		}, 50)
 	})
 
-	// Скрыть форму по кнопке "Отмена"
 	btnCancel.addEventListener('click', () => {
 		formWrapper.classList.remove('open')
 		addPostForm.reset()
@@ -31,19 +35,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Подсчет постов и диалоговое окно
 
-	// Показать статистику
 	btnShowStats.addEventListener('click', () => {
 		const articleCount = document.querySelectorAll('main article').length
 		postCountSpan.textContent = articleCount
 		statsDialog.showModal()
 	})
 
-	// Закрытие по крестику
 	closeDialogBtn.addEventListener('click', () => {
 		statsDialog.close()
 	})
 
-	// Закрытие при клике вне области диалога
 	statsDialog.addEventListener('click', event => {
 		const rect = statsDialog.getBoundingClientRect()
 		if (
@@ -56,32 +57,74 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	})
 
-	// Добавление поста с мок-данными
+	// Добавление поста с данными из формы
 
 	addPostForm.addEventListener('submit', event => {
 		event.preventDefault()
 
-		const mockData = {
-			title: 'Новый фильм (Мок-данные)',
-			text: 'Здесь должен быть текст статьи, но пока что его нет :с',
+		const imageUrlInput = document.getElementById('imageUrl')
+
+		const postData = {
+			title: document.getElementById('header').value,
+			text: document.getElementById('text').value,
 			date: new Date().toLocaleDateString('ru-RU', {
 				day: 'numeric',
 				month: 'long',
 				year: 'numeric',
 			}),
-			img: 'assets/photo.png', 
+			img:
+				imageUrlInput && imageUrlInput.value
+					? imageUrlInput.value
+					: 'assets/rickroll.jpg',
 		}
 
-		const clone = postTemplate.content.cloneNode(true)
+		// Проверяем, есть ли сейчас главная статья
+		const existingFeatured =
+			featuredArticleSection.querySelector('.featured-card')
 
-		clone.querySelector('.tmpl-title').textContent = mockData.title
-		clone.querySelector('.tmpl-text').textContent = mockData.text
-		clone.querySelector('.tmpl-date').textContent = mockData.date
-		clone.querySelector('.tmpl-img').src = mockData.img
-		clone.querySelector('.tmpl-img').alt = mockData.title
+		if (!existingFeatured) {
+			// Если главной статьи нет, создаем её из шаблона
+			const clone = featuredPostTemplate.content.cloneNode(true)
 
-		articlesGrid.prepend(clone)
+			clone.querySelector('.tmpl-title').textContent = postData.title
+			clone.querySelector('.tmpl-text').textContent = postData.text
+			clone.querySelector('.tmpl-date').textContent = postData.date
+			clone.querySelector('.tmpl-img').src = postData.img
+			clone.querySelector('.tmpl-img').alt = postData.title
+
+			featuredArticleSection.appendChild(clone)
+			featuredArticleSection.style.display = 'block' 
+		} else {
+			// Если главная статья есть, создаем обычную карточку для сетки
+			const clone = postTemplate.content.cloneNode(true)
+
+			clone.querySelector('.tmpl-title').textContent = postData.title
+			clone.querySelector('.tmpl-text').textContent = postData.text
+			clone.querySelector('.tmpl-date').textContent = postData.date
+			clone.querySelector('.tmpl-img').src = postData.img
+			clone.querySelector('.tmpl-img').alt = postData.title
+
+			articlesGrid.prepend(clone)
+		}
+
 		formWrapper.classList.remove('open')
 		addPostForm.reset()
+	})
+
+	// Удаление статьи 
+
+	mainContent.addEventListener('click', event => {
+		const deleteBtn = event.target.closest('.delete-btn')
+		if (deleteBtn) {
+			event.preventDefault()
+			const articleCard = deleteBtn.closest('article')
+
+			if (articleCard) {
+				if (articleCard.classList.contains('featured-card')) {
+					articleCard.closest('.featured-article').style.display = 'none'
+				}
+				articleCard.remove()
+			}
+		}
 	})
 })

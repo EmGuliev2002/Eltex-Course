@@ -57,6 +57,7 @@
 
 			<section class="featured-article">
 				<article class="featured-card">
+					<button class="delete-btn" title="Удалить статью">&times;</button>
 					<div class="featured-content">
 						<h2>Бегущий по лезвию 2049 (2017)</h2>
 						<p>
@@ -81,6 +82,7 @@
 
 			<section class="articles-grid">
 				<article class="article-card">
+					<button class="delete-btn" title="Удалить статью">&times;</button>
 					<a href="#">
 						<div class="article-image">
 							<img src="assets/photo 4.jpg" alt="Славные парни" />
@@ -100,6 +102,7 @@
 				</article>
 
 				<article class="article-card">
+					<button class="delete-btn" title="Удалить статью">&times;</button>
 					<a href="#">
 						<div class="article-image">
 							<img src="assets/photo 5.jpg" alt="Место под соснами" />
@@ -119,6 +122,7 @@
 				</article>
 
 				<article class="article-card">
+					<button class="delete-btn" title="Удалить статью">&times;</button>
 					<a href="#">
 						<div class="article-image">
 							<img src="assets/photo 6.jpg" alt="Игра на понижение" />
@@ -138,6 +142,7 @@
 				</article>
 
 				<article class="article-card">
+					<button class="delete-btn" title="Удалить статью">&times;</button>
 					<a href="#">
 						<div class="article-image">
 							<img src="assets/photo 7.jpg" alt="Человек на Луне" />
@@ -157,6 +162,7 @@
 				</article>
 
 				<article class="article-card">
+					<button class="delete-btn" title="Удалить статью">&times;</button>
 					<a href="#">
 						<div class="article-image">
 							<img src="assets/photo 8.jpg" alt="Мартовские иды" />
@@ -176,6 +182,7 @@
 				</article>
 
 				<article class="article-card">
+					<button class="delete-btn" title="Удалить статью">&times;</button>
 					<a href="#">
 						<div class="article-image">
 							<img src="assets/photo 9.jpg" alt="Каскадёры" />
@@ -210,6 +217,10 @@
 									<input id="header" type="text" name="Header" placeholder="Например: Съемки в Ла-Ла Ленде" required />
 								</div>
 								<div class="form-group">
+									<label for="imageUrl">Ссылка на фото</label>
+									<input id="imageUrl" type="url" name="ImageUrl" placeholder="Например: image.com/image.png" />
+								</div>
+								<div class="form-group">
 									<label for="text">Ваши воспоминания и мысли</label>
 									<textarea id="text" name="Text" placeholder="Расскажите о процессе съемок..." rows="6" required></textarea>
 								</div>
@@ -223,6 +234,36 @@
 				</div>
 			</section>
 		</main>
+
+		<template id="postTemplate">
+			<article class="article-card">
+				<button class="delete-btn" title="Удалить статью">&times;</button>
+				<a href="#">
+					<div class="article-image">
+						<img src="" alt="" class="tmpl-img"/>
+					</div>
+					<div class="article-content">
+						<h3 class="tmpl-title"></h3>
+						<p class="tmpl-text"></p>
+						<time class="article-date tmpl-date" datetime=""></time>
+					</div>
+				</a>
+			</article>
+		</template>
+
+		<template id="featuredPostTemplate">
+			<article class="featured-card">
+				<button class="delete-btn" title="Удалить статью">&times;</button>
+				<div class="featured-content">
+					<h2 class="tmpl-title"></h2>
+					<p class="tmpl-text"></p>
+					<time class="article-date tmpl-date" datetime=""></time>
+				</div>
+				<div class="featured-image">
+					<img src="" alt="" class="tmpl-img" />
+				</div>
+			</article>
+		</template>
 
 		<footer id="contact" class="site-footer">
 			<div class="container footer-content">
@@ -259,6 +300,7 @@
 					</div>
 					<p class="copyright">© 2026 Ryan Gosling, Inc</p>
 				</div>
+
 				<div class="footer-form">
 					<form action="#" method="get">
 						<div class="form-group">
