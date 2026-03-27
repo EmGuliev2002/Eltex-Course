@@ -409,7 +409,6 @@
 	background-color: var(--color-accent-orange);
 	color: var(--color-background);
 }
-
 /* Крестик для удаления статьи */
 .article-card, .featured-card {
 	position: relative; 
