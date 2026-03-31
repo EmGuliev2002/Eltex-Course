@@ -17,6 +17,7 @@ const postTemplate = document.getElementById('postTemplate')
 const formSection = document.getElementById('formSection')
 const mainContent = document.querySelector('main')
 const emptyState = document.getElementById('emptyState')
+const pagination = document.querySelector('.pagination')
 
 // Создание элемента лоадера
 function createLoader() {
@@ -112,8 +113,10 @@ async function render(showLoaderFlag = true) {
 
 	if (blogData.posts.length === 0) {
 		emptyState.style.display = 'block'
+		pagination.style.display = 'none'
 	} else {
 		emptyState.style.display = 'none'
+		pagination.style.display = 'flex'
 		blogData.posts.forEach(item => {
 			const postInstance = new Post(
 				item.id,
