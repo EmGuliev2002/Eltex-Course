@@ -463,3 +463,10 @@
     color: #999;
     width: 100%;
 }
+
+/* Сброс статей */
+.stats-dialog_actions {
+	display: flex;
+	padding-top: 2rem;
+	justify-content: center;
+}
