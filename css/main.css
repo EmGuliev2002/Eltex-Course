@@ -237,3 +237,14 @@ header {
 		gap: 4rem;
 	}
 }
+
+/* Стили для заблокированных кнопок */
+button:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+	pointer-events: auto;
+}
+
+button:disabled:hover {
+	transform: none;
+}

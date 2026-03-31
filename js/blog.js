@@ -18,8 +18,96 @@ const formSection = document.getElementById('formSection')
 const mainContent = document.querySelector('main')
 const emptyState = document.getElementById('emptyState')
 
+// Создание элемента лоадера
+function createLoader() {
+	const loader = document.createElement('div')
+	loader.className = 'loader'
+	loader.innerHTML = `
+		<div class="loader-dots">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<p>Загрузка статей...</p>
+	`
+	return loader
+}
+
+// Показать лоадер
+function showLoader() {
+	const existingLoader = document.querySelector('.loader')
+	if (existingLoader) return
+
+	const loader = createLoader()
+	articlesGrid.style.display = 'none'
+	emptyState.style.display = 'none'
+	articlesGrid.parentNode.insertBefore(loader, articlesGrid)
+}
+
+// Скрыть лоадер
+function hideLoader() {
+	const loader = document.querySelector('.loader')
+	if (loader) {
+		loader.remove()
+	}
+	articlesGrid.style.display = 'grid'
+}
+
+// Флаг для отслеживания выполнения асинхронной операции
+let isOperationInProgress = false
+
+// Блокировка элементов управления
+function disableControls() {
+	isOperationInProgress = true
+
+	btnCreatePost.disabled = true
+	btnShowStats.disabled = true
+	btnReset.disabled = true
+	btnCreatePost.style.opacity = '0.5'
+	btnShowStats.style.opacity = '0.5'
+	btnReset.style.opacity = '0.5'
+	btnCreatePost.style.cursor = 'not-allowed'
+	btnShowStats.style.cursor = 'not-allowed'
+	btnReset.style.cursor = 'not-allowed'
+
+	const formInputs = addPostForm.querySelectorAll('input, textarea, button')
+	formInputs.forEach(input => {
+		input.disabled = true
+		input.style.opacity = '0.5'
+		input.style.cursor = 'not-allowed'
+	})
+}
+
+// Разблокировка элементов управления
+function enableControls() {
+	isOperationInProgress = false
+
+	btnCreatePost.disabled = false
+	btnShowStats.disabled = false
+	btnReset.disabled = false
+	btnCreatePost.style.opacity = '1'
+	btnShowStats.style.opacity = '1'
+	btnReset.style.opacity = '1'
+	btnCreatePost.style.cursor = 'pointer'
+	btnShowStats.style.cursor = 'pointer'
+	btnReset.style.cursor = 'pointer'
+
+	const formInputs = addPostForm.querySelectorAll('input, textarea, button')
+	formInputs.forEach(input => {
+		input.disabled = false
+		input.style.opacity = '1'
+		input.style.cursor = ''
+	})
+}
+
 // Отрисовка постов
-function render() {
+async function render(showLoaderFlag = true) {
+	if (showLoaderFlag) {
+		showLoader()
+		// Имитация задержки загрузки
+		await new Promise(resolve => setTimeout(resolve, 600))
+	}
+
 	articlesGrid.innerHTML = ''
 
 	if (blogData.posts.length === 0) {
@@ -37,12 +125,17 @@ function render() {
 			articlesGrid.appendChild(postInstance.createHtml())
 		})
 	}
+
+	if (showLoaderFlag) {
+		hideLoader()
+	}
 }
 
 // Скрытие и раскрытие формы с анимацией
 
 // Раскрыть форму по кнопке
 btnCreatePost.addEventListener('click', () => {
+	if (isOperationInProgress) return
 	formWrapper.classList.add('open')
 	setTimeout(() => {
 		if (formSection) {
@@ -61,6 +154,7 @@ btnCancel.addEventListener('click', () => {
 
 // Показать статистику
 btnShowStats.addEventListener('click', () => {
+	if (isOperationInProgress) return
 	postCountSpan.textContent = blogData.posts.length
 	statsDialog.showModal()
 })
@@ -78,18 +172,27 @@ statsDialog.addEventListener('click', event => {
 })
 
 // Обработчик сброса статей
-btnReset?.addEventListener('click', () => {
+btnReset?.addEventListener('click', async () => {
+	if (isOperationInProgress) return
+
 	if (confirm('Сбросить список к начальным фильмам?')) {
-		blogData.resetToDefault()
-		render()
+		disableControls()
 		statsDialog.close()
+
+		blogData.resetToDefault()
+		render(true)
+
+		enableControls()
 	}
 })
 
 // Добавление поста с данными из формы
-
-addPostForm.addEventListener('submit', event => {
+addPostForm.addEventListener('submit', async event => {
 	event.preventDefault()
+
+	if (isOperationInProgress) return
+
+	disableControls()
 
 	const title = document.getElementById('header').value
 	const text = document.getElementById('text').value
@@ -97,25 +200,33 @@ addPostForm.addEventListener('submit', event => {
 
 	const newPostData = blogData.shapePostObj(title, text, img)
 	blogData.addPost(newPostData)
-	render()
+	render(true)
 
 	formWrapper.classList.remove('open')
 	addPostForm.reset()
+
+	enableControls()
 })
 
 // Удаление статьи
-
 mainContent.addEventListener('click', event => {
 	const deleteBtn = event.target.closest('.delete-btn')
 	if (deleteBtn) {
+		if (isOperationInProgress) return
+
 		event.preventDefault()
 		const articleCard = deleteBtn.closest('article')
 
 		if (articleCard) {
+			disableControls()
+
 			blogData.deletePost(articleCard.dataset.id)
-			render()
+			render(false)
+
+			enableControls()
 		}
 	}
 })
 
-render()
+// Первоначальная загрузка с лоадером
+render(true)
