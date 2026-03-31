@@ -1,3 +1,6 @@
+import { Post } from './Post.js'
+import { blogData } from './BlogData.js'
+
 const btnCreatePost = document.getElementById('btnCreatePost')
 const btnShowStats = document.getElementById('btnShowStats')
 const formWrapper = document.querySelector('.form-collapse-wrapper')
@@ -12,18 +15,27 @@ const articlesGrid = document.querySelector('.articles-grid')
 const postTemplate = document.getElementById('postTemplate')
 const formSection = document.getElementById('formSection')
 const mainContent = document.querySelector('main')
+const emptyState = document.getElementById('emptyState')
 
-// Функция для генерации элемента поста
-function createPostElement(data) {
-	const clone = postTemplate.content.cloneNode(true)
+// Отрисовка постов
+function render() {
+	articlesGrid.innerHTML = ''
 
-	clone.querySelector('.tmpl-title').textContent = data.title
-	clone.querySelector('.tmpl-text').textContent = data.text
-	clone.querySelector('.tmpl-date').textContent = data.date
-	clone.querySelector('.tmpl-img').src = data.img
-	clone.querySelector('.tmpl-img').alt = data.title
-
-	return clone
+	if (blogData.posts.length === 0) {
+		emptyState.style.display = 'block'
+	} else {
+		emptyState.style.display = 'none'
+		blogData.posts.forEach(item => {
+			const postInstance = new Post(
+				item.id,
+				item.title,
+				item.text,
+				item.date,
+				item.img,
+			)
+			articlesGrid.appendChild(postInstance.createHtml())
+		})
+	}
 }
 
 // Скрытие и раскрытие формы с анимацией
@@ -48,8 +60,7 @@ btnCancel.addEventListener('click', () => {
 
 // Показать статистику
 btnShowStats.addEventListener('click', () => {
-	const articleCount = document.querySelectorAll('main article').length
-	postCountSpan.textContent = articleCount
+	postCountSpan.textContent = blogData.posts.length
 	statsDialog.showModal()
 })
 
@@ -70,25 +81,13 @@ statsDialog.addEventListener('click', event => {
 addPostForm.addEventListener('submit', event => {
 	event.preventDefault()
 
-	const imageUrlInput = document.getElementById('imageUrl')
+	const title = document.getElementById('header').value
+	const text = document.getElementById('text').value
+	const img = document.getElementById('imageUrl').value
 
-	const postData = {
-		title: document.getElementById('header').value,
-		text: document.getElementById('text').value,
-		date: new Date().toLocaleDateString('ru-RU', {
-			day: 'numeric',
-			month: 'long',
-			year: 'numeric',
-		}),
-		img:
-			imageUrlInput && imageUrlInput.value
-				? imageUrlInput.value
-				: 'assets/rickroll.jpg',
-	}
-
-	// Создаем новый пост и добавляем его в начало сетки
-	const clone = createPostElement(postData)
-	articlesGrid.prepend(clone)
+	const newPostData = blogData.shapePostObj(title, text, img)
+	blogData.addPost(newPostData)
+	render()
 
 	formWrapper.classList.remove('open')
 	addPostForm.reset()
@@ -103,7 +102,10 @@ mainContent.addEventListener('click', event => {
 		const articleCard = deleteBtn.closest('article')
 
 		if (articleCard) {
-			articleCard.remove()
+			blogData.deletePost(articleCard.dataset.id)
+			render()
 		}
 	}
 })
+
+render()

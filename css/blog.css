@@ -453,3 +453,13 @@
 	background-color: var(--color-accent-orange);
 	color: white;
 }
+
+/* Нет статей */
+.empty-state {
+    display: none;
+    text-align: center;
+    padding: 8rem 0;
+    font-size: 2rem;
+    color: #999;
+    width: 100%;
+}
