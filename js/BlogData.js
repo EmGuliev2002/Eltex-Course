@@ -13,6 +13,11 @@ class BlogData {
 		localStorage.setItem(this.storageKey, JSON.stringify(this.posts))
 	}
 
+	resetToDefault() {
+		this.posts = [...initialPosts]
+		this.save()
+	}
+
 	addPost(data) {
 		this.posts.unshift(data)
 		this.save()

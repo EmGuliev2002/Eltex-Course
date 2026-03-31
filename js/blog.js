@@ -10,6 +10,7 @@ const addPostForm = document.getElementById('addPostForm')
 const statsDialog = document.getElementById('statsDialog')
 const closeDialogBtn = document.getElementById('closeDialog')
 const postCountSpan = document.getElementById('postCount')
+const btnReset = document.getElementById('btnReset')
 
 const articlesGrid = document.querySelector('.articles-grid')
 const postTemplate = document.getElementById('postTemplate')
@@ -72,6 +73,15 @@ closeDialogBtn.addEventListener('click', () => {
 // Закрытие при клике на подложку
 statsDialog.addEventListener('click', event => {
 	if (event.target === statsDialog) {
+		statsDialog.close()
+	}
+})
+
+// Обработчик сброса статей
+btnReset?.addEventListener('click', () => {
+	if (confirm('Сбросить список к начальным фильмам?')) {
+		blogData.resetToDefault()
+		render()
 		statsDialog.close()
 	}
 })
