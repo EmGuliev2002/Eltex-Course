@@ -1,130 +1,109 @@
-document.addEventListener('DOMContentLoaded', () => {
-	const btnCreatePost = document.getElementById('btnCreatePost')
-	const btnShowStats = document.getElementById('btnShowStats')
-	const formWrapper = document.querySelector('.form-collapse-wrapper')
-	const btnCancel = document.getElementById('btnCancel')
-	const addPostForm = document.getElementById('addPostForm')
+const btnCreatePost = document.getElementById('btnCreatePost')
+const btnShowStats = document.getElementById('btnShowStats')
+const formWrapper = document.querySelector('.form-collapse-wrapper')
+const btnCancel = document.getElementById('btnCancel')
+const addPostForm = document.getElementById('addPostForm')
 
-	const statsDialog = document.getElementById('statsDialog')
-	const closeDialogBtn = document.getElementById('closeDialog')
-	const postCountSpan = document.getElementById('postCount')
+const statsDialog = document.getElementById('statsDialog')
+const closeDialogBtn = document.getElementById('closeDialog')
+const postCountSpan = document.getElementById('postCount')
 
-	const articlesGrid = document.querySelector('.articles-grid')
-	const postTemplate = document.getElementById('postTemplate')
-	const formSection = document.getElementById('formSection')
-	const mainContent = document.querySelector('main')
+const articlesGrid = document.querySelector('.articles-grid')
+const postTemplate = document.getElementById('postTemplate')
+const formSection = document.getElementById('formSection')
+const mainContent = document.querySelector('main')
 
-	const featuredArticleSection = document.querySelector('.featured-article')
-	const featuredPostTemplate = document.getElementById('featuredPostTemplate')
+// Функция для генерации элемента поста
+function createPostElement(data) {
+	const clone = postTemplate.content.cloneNode(true)
 
-	// Скрытие и раскрытие формы с анимацией
+	clone.querySelector('.tmpl-title').textContent = data.title
+	clone.querySelector('.tmpl-text').textContent = data.text
+	clone.querySelector('.tmpl-date').textContent = data.date
+	clone.querySelector('.tmpl-img').src = data.img
+	clone.querySelector('.tmpl-img').alt = data.title
 
-	btnCreatePost.addEventListener('click', () => {
-		formWrapper.classList.add('open')
-		setTimeout(() => {
-			if (formSection) {
-				formSection.scrollIntoView({ behavior: 'smooth', block: 'center' })
-			}
-		}, 50)
-	})
+	return clone
+}
 
-	btnCancel.addEventListener('click', () => {
-		formWrapper.classList.remove('open')
-		addPostForm.reset()
-	})
+// Скрытие и раскрытие формы с анимацией
 
-	// Подсчет постов и диалоговое окно
+// Раскрыть форму по кнопке
+btnCreatePost.addEventListener('click', () => {
+	formWrapper.classList.add('open')
+	setTimeout(() => {
+		if (formSection) {
+			formSection.scrollIntoView({ behavior: 'smooth', block: 'center' })
+		}
+	}, 50)
+})
 
-	btnShowStats.addEventListener('click', () => {
-		const articleCount = document.querySelectorAll('main article').length
-		postCountSpan.textContent = articleCount
-		statsDialog.showModal()
-	})
+// Скрыть форму по кнопке "Отмена"
+btnCancel.addEventListener('click', () => {
+	formWrapper.classList.remove('open')
+	addPostForm.reset()
+})
 
-	closeDialogBtn.addEventListener('click', () => {
+// Подсчет постов и диалоговое окно
+
+// Показать статистику
+btnShowStats.addEventListener('click', () => {
+	const articleCount = document.querySelectorAll('main article').length
+	postCountSpan.textContent = articleCount
+	statsDialog.showModal()
+})
+
+// Закрытие по крестику
+closeDialogBtn.addEventListener('click', () => {
+	statsDialog.close()
+})
+
+// Закрытие при клике на подложку
+statsDialog.addEventListener('click', event => {
+	if (event.target === statsDialog) {
 		statsDialog.close()
-	})
+	}
+})
 
-	statsDialog.addEventListener('click', event => {
-		const rect = statsDialog.getBoundingClientRect()
-		if (
-			event.clientX < rect.left ||
-			event.clientX > rect.right ||
-			event.clientY < rect.top ||
-			event.clientY > rect.bottom
-		) {
-			statsDialog.close()
-		}
-	})
+// Добавление поста с данными из формы
 
-	// Добавление поста с данными из формы
+addPostForm.addEventListener('submit', event => {
+	event.preventDefault()
 
-	addPostForm.addEventListener('submit', event => {
+	const imageUrlInput = document.getElementById('imageUrl')
+
+	const postData = {
+		title: document.getElementById('header').value,
+		text: document.getElementById('text').value,
+		date: new Date().toLocaleDateString('ru-RU', {
+			day: 'numeric',
+			month: 'long',
+			year: 'numeric',
+		}),
+		img:
+			imageUrlInput && imageUrlInput.value
+				? imageUrlInput.value
+				: 'assets/rickroll.jpg',
+	}
+
+	// Создаем новый пост и добавляем его в начало сетки
+	const clone = createPostElement(postData)
+	articlesGrid.prepend(clone)
+
+	formWrapper.classList.remove('open')
+	addPostForm.reset()
+})
+
+// Удаление статьи
+
+mainContent.addEventListener('click', event => {
+	const deleteBtn = event.target.closest('.delete-btn')
+	if (deleteBtn) {
 		event.preventDefault()
+		const articleCard = deleteBtn.closest('article')
 
-		const imageUrlInput = document.getElementById('imageUrl')
-
-		const postData = {
-			title: document.getElementById('header').value,
-			text: document.getElementById('text').value,
-			date: new Date().toLocaleDateString('ru-RU', {
-				day: 'numeric',
-				month: 'long',
-				year: 'numeric',
-			}),
-			img:
-				imageUrlInput && imageUrlInput.value
-					? imageUrlInput.value
-					: 'assets/rickroll.jpg',
+		if (articleCard) {
+			articleCard.remove()
 		}
-
-		// Проверяем, есть ли сейчас главная статья
-		const existingFeatured =
-			featuredArticleSection.querySelector('.featured-card')
-
-		if (!existingFeatured) {
-			// Если главной статьи нет, создаем её из шаблона
-			const clone = featuredPostTemplate.content.cloneNode(true)
-
-			clone.querySelector('.tmpl-title').textContent = postData.title
-			clone.querySelector('.tmpl-text').textContent = postData.text
-			clone.querySelector('.tmpl-date').textContent = postData.date
-			clone.querySelector('.tmpl-img').src = postData.img
-			clone.querySelector('.tmpl-img').alt = postData.title
-
-			featuredArticleSection.appendChild(clone)
-			featuredArticleSection.style.display = 'block' 
-		} else {
-			// Если главная статья есть, создаем обычную карточку для сетки
-			const clone = postTemplate.content.cloneNode(true)
-
-			clone.querySelector('.tmpl-title').textContent = postData.title
-			clone.querySelector('.tmpl-text').textContent = postData.text
-			clone.querySelector('.tmpl-date').textContent = postData.date
-			clone.querySelector('.tmpl-img').src = postData.img
-			clone.querySelector('.tmpl-img').alt = postData.title
-
-			articlesGrid.prepend(clone)
-		}
-
-		formWrapper.classList.remove('open')
-		addPostForm.reset()
-	})
-
-	// Удаление статьи 
-
-	mainContent.addEventListener('click', event => {
-		const deleteBtn = event.target.closest('.delete-btn')
-		if (deleteBtn) {
-			event.preventDefault()
-			const articleCard = deleteBtn.closest('article')
-
-			if (articleCard) {
-				if (articleCard.classList.contains('featured-card')) {
-					articleCard.closest('.featured-article').style.display = 'none'
-				}
-				articleCard.remove()
-			}
-		}
-	})
+	}
 })
