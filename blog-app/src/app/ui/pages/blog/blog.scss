@@ -15,39 +15,7 @@
 	color: var(--color-text-light);
 }
 
-/* Выделенная статья */
-.articles-grid .article-card:first-child {
-	grid-column: 1 / -1; 
-	display: flex;
-	background-color: var(--color-gray);
-	border: none;
-	border-radius: 2rem;
-	margin-bottom: 2rem;
-}
-
-.articles-grid .article-card:first-child a {
-	display: flex;
-	flex-direction: row-reverse;
-	width: 100%;
-	align-items: center;
-}
-
-.articles-grid .article-card:first-child .article-image {
-	flex: 1;
-	height: 100%;
-	min-height: 35rem;
-}
-
-.articles-grid .article-card:first-child .article-content {
-	flex: 1;
-	padding: 4rem;
-}
-
-.articles-grid .article-card:first-child h3 {
-	font-size: 3.2rem;
-}
-
-/* Сетка остальных статей*/
+/* Сетка статей */
 .articles-grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
@@ -55,162 +23,39 @@
 	margin-bottom: 4rem;
 }
 
-.article-card {
-	background: var(--color-background);
-	border: 1px solid var(--color-border);
-	border-radius: 1.6rem;
-	overflow: hidden;
-	/* Анимация при наведении на саму карточку */
-	transition:
-		transform 0.3s ease,
-		box-shadow 0.3s ease;
+/* Выделенная статья (Первый элемент сетки) */
+.articles-grid app-article-card:first-child {
+	grid-column: 1 / -1; 
 }
 
-.article-card:hover {
-	transform: translateY(-0.5rem);
-	box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
-}
-
-.article-image {
-	height: 22rem;
-	overflow: hidden;
-}
-.article-image img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	transition: transform 0.5s ease;
-}
-.article-card:hover .article-image img {
-	transform: scale(1.05);
-}
-
-.article-content {
-	padding: 2rem;
-}
-.article-content h3 {
-	font-size: 2rem;
-	margin-bottom: 1.2rem;
-	line-height: 1.4;
-	color: var(--color-primary);
-}
-.article-content p {
-	font-size: 1.4rem;
-	margin-bottom: 1.6rem;
-	color: var(--color-text-light);
-}
-.article-date {
-	display: block;
-	color: #999;
-	font-size: 1.4rem;
-	font-weight: 500;
-	text-align: left;
-}
-
-/* Анимация заголовка внутри карточки при наведении */
-.article-card a {
-	text-decoration: none;
-}
-.article-card a:hover h3 {
-	color: var(--color-accent-green);
-	text-decoration: underline;
-	text-underline-offset: 4px;
-}
-
-/*  Пагинация */
-.pagination {
+.articles-grid app-article-card:first-child ::ng-deep .article-card {
 	display: flex;
-	justify-content: flex-end;
-	padding: 2rem 0 4rem;
-}
-.pagination-next {
-	font-weight: 600;
-	font-size: 1.8rem;
-	color: var(--color-accent-green);
-	text-decoration: none;
-	transition: all 0.3s ease;
-	display: inline-flex;
-	align-items: center;
-	gap: 0.4rem;
-	border: 2px solid var(--color-accent-green);
-	padding: 1rem 2.4rem;
-	border-radius: 4rem;
-	background-color: transparent;
-}
-.pagination-next:hover {
-	background-color: var(--color-accent-green);
-	color: white;
-	gap: 1rem;
-}
-
-/* Форма добавления статьи */
-.create-article-section {
-	padding: 4rem 0;
-	border-top: 1px solid var(--color-border);
-}
-.create-article-section h2 {
-	margin-bottom: 3rem;
-	color: var(--color-primary);
-}
-.article-form {
-	max-width: 60rem;
-}
-.article-form .form-group {
+	background-color: var(--color-gray);
+	border: none;
+	border-radius: 2rem;
 	margin-bottom: 2rem;
 }
-.article-form label {
-	display: block;
-	font-weight: 500;
-	font-size: 1.4rem;
-	margin-bottom: 0.8rem;
-	color: var(--color-text);
-}
-.article-form input,
-.article-form textarea {
+
+.articles-grid app-article-card:first-child ::ng-deep .article-card a {
+	display: flex;
+	flex-direction: row-reverse;
 	width: 100%;
-	padding: 1.2rem 1.6rem;
-	border: 1px solid var(--color-border);
-	border-radius: 0.8rem;
-	font-size: 1.6rem;
-}
-.article-form input:focus,
-.article-form textarea:focus {
-	border-color: var(--color-accent-green);
+	align-items: center;
 }
 
-/* @media запросы)*/
-
-/* При ширине экрана до 1024px: делаем 2 колонки вместо 3 */
-@media (max-width: 1024px) {
-	.articles-grid {
-		grid-template-columns: repeat(2, 1fr);
-	}
+.articles-grid app-article-card:first-child ::ng-deep .article-image {
+	flex: 1;
+	height: 100%;
+	min-height: 35rem;
 }
 
-/* Адаптивность */
-@media (max-width: 800px) {
-	.articles-grid {
-		grid-template-columns: 1fr;
-	}
-	/* Сбрасываем горизонтальный вид большой карточки на мобилках */
-	.articles-grid .article-card:first-child {
-		display: block;
-	}
-	.articles-grid .article-card:first-child a {
-		display: block;
-	}
-	.articles-grid .article-card:first-child .article-image {
-		min-height: 22rem;
-	}
-	.featured-content {
-		padding: 2rem;
-	}
-	.blog-header {
-		padding: 3rem 0 1rem;
-	}
-	.blog-header h1 {
-		font-size: 4rem;
-	}
+.articles-grid app-article-card:first-child ::ng-deep .article-content {
+	flex: 1;
+	padding: 4rem;
+}
+
+.articles-grid app-article-card:first-child ::ng-deep h3 {
+	font-size: 3.2rem;
 }
 
 /* Админ-панель */
@@ -325,221 +170,42 @@
 	color: var(--color-primary);
 }
 
-/* Форма добавления статьи */
-/* Анимация раскрытия формы */
-.form-collapse-wrapper {
-	display: grid;
-	grid-template-rows: 0fr;
-	transition: grid-template-rows 0.4s ease-out;
-}
-
-.form-collapse-wrapper.open {
-	grid-template-rows: 1fr;
-}
-
-.form-content-inner {
-	overflow: hidden;
-}
-
-/* Внутренний контейнер формы */
-.form-box {
-	background: var(--color-background);
-	padding: 3rem 0 4rem 0;
-	border-top: 1px solid var(--color-border);
-}
-
-.form-box h2 {
-	font-size: 2.4rem;
-	margin-bottom: 3rem;
-	color: var(--color-primary);
-	font-weight: 700;
-}
-
-.article-form {
-	max-width: 60rem;
-}
-
-.article-form .form-group {
-	margin-bottom: 2rem;
-}
-
-.article-form label {
-	display: block;
-	font-weight: 500;
-	font-size: 1.4rem;
-	margin-bottom: 0.8rem;
-	color: var(--color-text);
-}
-
-.article-form input,
-.article-form textarea {
-	width: 100%;
-	padding: 1.2rem 1.6rem;
-	border: 1px solid var(--color-border);
-	border-radius: 0.8rem;
-	font-size: 1.6rem;
-	transition: border-color 0.3s ease;
-}
-
-/* Цвет плейсхолдеров */
-.article-form input::placeholder,
-.article-form textarea::placeholder {
-	color: #bbb;
-}
-
-/* Зеленая обводка при клике*/
-.article-form input:focus,
-.article-form textarea:focus {
-	border-color: var(--color-accent-green);
-}
-
-/* Кнопки "Добавить" и "Отмена" */
-.form-actions {
-	display: flex;
-	gap: 1.5rem;
-	margin-top: 2rem;
-}
-
-.btn-cancel {
-	background-color: var(--color-background);
-	color: var(--color-accent-orange);
-	padding: 1.2rem 3.2rem;
-	border-radius: 4rem;
-	font-weight: 600;
-	font-size: 1.6rem;
-	border: 1px solid var(--color-accent-orange);
-	transition: all 0.3s ease;
-}
-
-.btn-cancel:hover {
-	background-color: var(--color-accent-orange);
-	color: var(--color-background);
-}
-
-/* Крестик для удаления статьи */
-.article-card {
-	position: relative; 
-}
-
-.delete-btn {
-	position: absolute;
-	top: 1.5rem;
-	right: 1.5rem;
-	width: 3.2rem;
-	height: 3.2rem;
-	background-color: rgba(255, 255, 255, 0.9);
-	color: var(--color-accent-orange);
-	border: none;
-	border-radius: 50%;
-	font-size: 2.4rem;
-	line-height: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-	opacity: 0;
-	transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-	z-index: 10;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* Показываем крестик при наведении на карточку */
-.article-card:hover .delete-btn {
-	opacity: 1; 
-}
-
-/* Анимация при наведении на сам крестик */
-.delete-btn:hover {
-	background-color: var(--color-accent-orange);
-	color: white;
-}
-
-/* Нет статей */
+/* Пустое состояние */
 .empty-state {
-    display: none;
-    text-align: center;
-    padding: 8rem 0;
-    font-size: 2rem;
-    color: #999;
-    width: 100%;
-}
-
-/* Сброс статей */
-.stats-dialog_actions {
-	display: flex;
-	padding-top: 2rem;
-	justify-content: center;
-}
-
-/* Лоадер */
-.loader {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	min-height: 300px;
-	width: 100%;
 	grid-column: 1 / -1;
+	text-align: center;
+	padding: 8rem 0;
+	font-size: 2rem;
+	color: #999;
+	width: 100%;
 }
 
-.loader-dots {
-	display: flex;
-	gap: 1.2rem;
-	margin-bottom: 1.6rem;
-}
 
-.loader-dots span {
-	width: 12px;
-	height: 12px;
-	background-color: var(--color-accent-green);
-	border-radius: 50%;
-	animation: bounce 1.4s ease-in-out infinite both;
-}
-
-.loader-dots span:nth-child(1) {
-	animation-delay: -0.32s;
-}
-
-.loader-dots span:nth-child(2) {
-	animation-delay: -0.16s;
-}
-
-@keyframes bounce {
-	0%,
-	80%,
-	100% {
-		transform: scale(0);
-		opacity: 0.5;
-	}
-	40% {
-		transform: scale(1);
-		opacity: 1;
+/* Адаптивность */
+@media (max-width: 1024px) {
+	.articles-grid {
+		grid-template-columns: repeat(2, 1fr);
 	}
 }
 
-.loader p {
-	font-size: 1.4rem;
-	color: var(--color-text-light);
-	margin-top: 0.8rem;
-}
-
-/* Стили для заблокированных кнопок */
-.admin-btn:disabled,
-.btn-reset:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-	transform: none;
-}
-
-.admin-btn:disabled:hover {
-	transform: none;
-}
-
-/* Стили для заблокированных полей формы */
-.form-group input:disabled,
-.form-group textarea:disabled,
-.form-group button:disabled {
-	background-color: #f5f5f5;
-	cursor: not-allowed;
-	opacity: 0.6;
+@media (max-width: 800px) {
+	.articles-grid {
+		grid-template-columns: 1fr;
+	}
+	
+	.articles-grid app-article-card:first-child ::ng-deep .article-card {
+		display: block;
+	}
+	.articles-grid app-article-card:first-child ::ng-deep .article-card a {
+		display: block;
+	}
+	.articles-grid app-article-card:first-child ::ng-deep .article-image {
+		min-height: 22rem;
+	}
+	.blog-header {
+		padding: 3rem 0 1rem;
+	}
+	.blog-header h1 {
+		font-size: 4rem;
+	}
 }

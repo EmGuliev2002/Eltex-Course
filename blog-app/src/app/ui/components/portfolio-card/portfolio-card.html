@@ -1,0 +1,10 @@
+<div class="portfolio-card">
+  <div class="portfolio-content">
+    <span class="category" [class]="item.colorClass">{{ item.category }}</span>
+    <h2>{{ item.title }}</h2>
+    <p>{{ item.text }}</p>
+  </div>
+  <div class="portfolio-image">
+    <img [src]="item.img" [alt]="item.title" />
+  </div>
+</div>

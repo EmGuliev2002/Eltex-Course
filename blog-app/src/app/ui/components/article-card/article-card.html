@@ -1,0 +1,13 @@
+<article class="article-card">
+  <button class="delete-btn" title="Удалить статью" (click)="onDelete($event)">&times;</button>
+  <a href="javascript:void(0)">
+    <div class="article-image">
+      <img [src]="post.img" [alt]="post.title" class="tmpl-img"/>
+    </div>
+    <div class="article-content">
+      <h3 class="tmpl-title">{{ post.title }}</h3>
+      <p class="tmpl-text">{{ post.text }}</p>
+      <time class="article-date tmpl-date">{{ post.date }}</time>
+    </div>
+  </a>
+</article>

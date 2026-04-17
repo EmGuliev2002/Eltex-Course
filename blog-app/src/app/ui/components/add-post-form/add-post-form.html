@@ -1,0 +1,21 @@
+<div class="form-box">
+  <h2>Добавить запись в дневник (памяти)</h2>
+  <form class="article-form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="header">Название фильма / Заголовок</label>
+      <input id="header" type="text" name="title" [(ngModel)]="formData.title" placeholder="Например: Съемки в Ла-Ла Ленде" required />
+    </div>
+    <div class="form-group">
+      <label for="imageUrl">Ссылка на фото</label>
+      <input id="imageUrl" type="url" name="img" [(ngModel)]="formData.img" placeholder="Например: image.com/image.png" />
+    </div>
+    <div class="form-group">
+      <label for="text">Ваши воспоминания и мысли</label>
+      <textarea id="text" name="text" [(ngModel)]="formData.text" placeholder="Расскажите о процессе съемок..." rows="6" required></textarea>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn-submit" [disabled]="!formData.title || !formData.text">Добавить</button>
+      <button type="button" class="btn-cancel" (click)="cancel.emit()">Отмена</button>
+    </div>
+  </form>
+</div>
