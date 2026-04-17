@@ -2,8 +2,8 @@
 	<div class="logo">Ryan-folio</div>
 	<nav>
 		<ul class="nav-menu">
-			<li><a href="#" class="active">Обо мне</a></li>
-			<li><a href="#">Фильмография</a></li>
+			<li><a routerLink="/" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">Обо мне</a></li>
+			<li><a routerLink="/blog" routerLinkActive="active">Фильмография</a></li>
 			<li><a href="#contact">Контакты</a></li>
 		</ul>
 	</nav>

@@ -16,9 +16,7 @@
 				<svg class="spinning-text" viewBox="0 0 100 100" width="120" height="120">
 					<path id="circlePath" fill="none" d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" />
 					<text font-size="11" font-weight="bold" fill="#2D3239" letter-spacing="3">
-						<textPath href="#circlePath">
-							RYAN GOSLING RYAN GOSLING
-						</textPath>
+						<textPath href="#circlePath">RYAN GOSLING RYAN GOSLING</textPath>
 					</text>
 				</svg>
 				<div class="arrow-down">↓</div>
@@ -28,43 +26,13 @@
 	</section>
 
 	<section class="portfolio-section">
-		<div class="portfolio-card">
-			<div class="portfolio-content">
-				<span class="category orange-text">Блокбастер</span>
-				<h2>Барби (2023)</h2>
-				<p>
-					Райан Гослинг в фильме «Барби» играет роль Кена — стереотипного
-					бойфренда главной героини, который отправляется с ней из
-					идеального Барбиленда в реальный мир. Его персонаж — комичный,
-					неуверенный в себе, но любящий Кен, который переживает кризис
-					самоопределения.
-				</p>
-			</div>
-			<div class="portfolio-image">
-				<img src="photo 2.webp" alt="Райан Гослинг в роли Кена" />
-			</div>
-		</div>
-
-		<div class="portfolio-card">
-			<div class="portfolio-content">
-				<span class="category green-text">Культовое кино</span>
-				<h2>Драйв (2011)</h2>
-				<p>
-					Стильный криминальный триллер, где Райан Гослинг играет
-					безымянного каскадёра и автомеханика, подрабатывающего
-					перевозчиком преступников. Молчаливый антигерой в куртке со
-					скорпионом навсегда закрепился в поп-культуре и породил волну
-					мемов «literally me».
-				</p>
-			</div>
-			<div class="portfolio-image">
-				<img src="photo 1.jpg" alt="Райан Гослинг в фильме Драйв" />
-			</div>
-		</div>
+		@for (item of portfolioItems; track item.title) {
+			<app-portfolio-card [item]="item"></app-portfolio-card>
+		}
 
 		<div class="center-button">
-			<button class="btn-outline">
-				Посмотреть всю фильмографию
+			<button class="btn-outline" routerLink="/blog">
+			Посмотреть всю фильмографию
 			</button>
 		</div>
 	</section>
@@ -75,12 +43,9 @@
 		</div>
 		<div class="col-right">
 			<ul class="skills-grid">
-				<li>Актёрское мастерство</li>
-				<li>Экстремальное вождение (Драйв)</li>
-				<li>Игра на джазовом фортепиано</li>
-				<li>Продюсирование и режиссура</li>
-				<li>Вокал и игра на гитаре</li>
-				<li>Молчаливая харизма</li>
+				@for (skill of skills; track skill) {
+					<li>{{ skill }}</li>
+				}
 			</ul>
 		</div>
 	</section>
@@ -94,44 +59,16 @@
 			</p>
 		</div>
 		<div class="col-right work-list">
-			<article class="job-item">
-				<div class="job-icon circle-orange-blue"></div>
-				<div class="job-text">
-					<span class="job-meta">The Mickey Mouse Club - (1993 - 1995)</span>
-					<h3>Старт карьеры</h3>
-					<p>
-						Выступал в знаменитом детском шоу на канале Disney вместе с
-						будущими мировыми звездами: Джастином Тимберлейком, Бритни Спирс
-						и Кристиной Агилерой.
-					</p>
-				</div>
-			</article>
-
-			<article class="job-item">
-				<div class="job-icon diamond-orange"></div>
-				<div class="job-text">
-					<span class="job-meta">Дневник памяти - (2004)</span>
-					<h3>Мировой прорыв</h3>
-					<p>
-						Сыграл Ноя Кэлхуна в культовой романтической драме. Эта роль
-						принесла мне первую широкую мировую известность и статус
-						романтического героя.
-					</p>
-				</div>
-			</article>
-
-			<article class="job-item">
-				<div class="job-icon circle-blue"></div>
-				<div class="job-text">
-					<span class="job-meta">Ла-Ла Ленд - (2016)</span>
-					<h3>Признание критиков</h3>
-					<p>
-						Роль джазового пианиста Себастьяна. Ради фильма я научился
-						играть на фортепиано с нуля. Получил «Золотой глобус» и
-						номинацию на «Оскар» за лучшую мужскую роль.
-					</p>
-				</div>
-			</article>
+			@for (job of careerItems; track job.title) {
+				<article class="job-item">
+					<div class="job-icon" [class]="job.iconClass"></div>
+					<div class="job-text">
+						<span class="job-meta">{{ job.meta }}</span>
+						<h3>{{ job.title }}</h3>
+						<p>{{ job.text }}</p>
+					</div>
+				</article>
+			}
 		</div>
 	</section>
 
@@ -144,46 +81,15 @@
 			</p>
 		</div>
 		<div class="hobby-grid">
-			<div class="hobby-card tall">
-				<img src="hobby 1.jpg" alt="Dead Man's Bones" />
-				<div class="hobby-overlay">
-					<h3>Dead Man's Bones</h3>
-					<p>
-						В 2009 году основал инди-рок группу. Мы выпустили альбом, где я
-						пою, играю на фортепиано, гитаре и виолончели.
-					</p>
+			@for (hobby of hobbyItems; track hobby.title) {
+				<div class="hobby-card" [class]="hobby.sizeClass">
+					<img [src]="hobby.img" [alt]="hobby.title" />
+					<div class="hobby-overlay">
+						<h3>{{ hobby.title }}</h3>
+						<p>{{ hobby.text }}</p>
+					</div>
 				</div>
-			</div>
-			<div class="hobby-card tall">
-				<img src="hobby 2.jpg" alt="Режиссура" />
-				<div class="hobby-overlay">
-					<h3>Режиссура</h3>
-					<p>
-						Снял свой первый авторский фильм «Как поймать монстра» (Lost
-						River) в 2014 году. Это нео-нуарная сказка.
-					</p>
-				</div>
-			</div>
-			<div class="hobby-card wide">
-				<img src="hobby 3.jpg" alt="Столярное дело" />
-				<div class="hobby-overlay">
-					<h3>Столярное дело</h3>
-					<p>
-						Люблю работать руками. Кухонный стол, который мой персонаж
-						делает в «Дневнике памяти», я смастерил сам.
-					</p>
-				</div>
-			</div>
-			<div class="hobby-card wide">
-				<img src="hobby 4.jpg" alt="Балет" />
-				<div class="hobby-overlay">
-					<h3>Любовь к танцам</h3>
-					<p>
-						В детстве я занимался балетом, что сильно помогло мне позже при
-						подготовке к сложным хореографическим сценам.
-					</p>
-				</div>
-			</div>
+			}
 		</div>
 	</section>
 </main>

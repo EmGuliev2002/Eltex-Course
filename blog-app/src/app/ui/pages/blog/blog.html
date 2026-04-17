@@ -1,94 +1,47 @@
 <aside class="admin-panel">
-	<button id="btnCreatePost" class="admin-btn" title="Добавить статью">
-		<img src="/Post add.png" alt="Добавить статью" />
-	</button>
-	<button id="btnShowStats" class="admin-btn" title="Просмотр статистики">
-		<img src="/Vector.png" alt="Просмотр статистики" />
-	</button>
+  <button class="admin-btn" title="Добавить статью" (click)="toggleForm()">
+    <img src="Post add.png" alt="Добавить статью" />
+  </button>
+  <button class="admin-btn" title="Просмотр статистики" (click)="toggleStats()">
+    <img src="Vector.png" alt="Просмотр статистики" />
+  </button>
 </aside>
 
-<dialog id="statsDialog" class="stats-dialog">
-	<div class="dialog-content">
-		<button id="closeDialog" class="close-btn">&times;</button>
-		<h3>Статистика страницы</h3>
-		<div class="stats-grid">
-			<div class="stat-card">
-				<span class="stat-label">Всего статей:</span>
-				<span class="stat-value" id="postCount">0</span>
-			</div>
-			<div class="stat-card">
-				<span class="stat-label">Комментарии:</span>
-				<span class="stat-value">0</span>
-			</div>
-		</div>
-		<div class="stats-dialog_actions">
-			<button id="btnReset" class="btn-cancel btn-reset">
-				Сбросить статьи
-			</button>
-		</div>
-	</div>
+<dialog #statsDialog class="stats-dialog" (click)="$event.target === statsDialog ? toggleStats() : null">
+  <div class="dialog-content">
+    <button class="close-btn" (click)="toggleStats()">&times;</button>
+    <h3>Статистика страницы</h3>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">Всего статей:</span>
+        <span class="stat-value">{{ posts.length }}</span>
+      </div>
+    </div>
+  </div>
 </dialog>
 
 <main class="container">
-	<section class="blog-header">
-		<h1>Моя фильмография</h1>
-		<p>
-			Здесь собраны мои любимые проекты, мысли о персонажах и небольшие
-			истории со съёмочных площадок. Добро пожаловать за кулисы.
-		</p>
-	</section>
+  <section class="blog-header">
+    <h1>Моя фильмография</h1>
+    <p>Здесь собраны мои любимые проекты, мысли о персонажах и небольшие истории со съёмочных площадок. Добро пожаловать за кулисы.</p>
+  </section>
 
-	<section class="articles-grid"></section>
+  <section class="articles-grid">
+    @for (post of posts; track post.id) {
+      <app-article-card [post]="post" (delete)="onDeletePost($event)"></app-article-card>
+    } @empty {
+      <div class="empty-state" style="display: block;">
+        <p>Нет статей</p>
+      </div>
+    }
+  </section>
 
-	<div id="emptyState" class="empty-state">
-		<p>Нет статей</p>
-	</div>
-
-	<div class="pagination">
-		<a href="#" class="pagination-next">Больше фильмов →</a>
-	</div>
-
-	<section id="formSection">
-		<div class="form-collapse-wrapper">
-			<div class="form-content-inner">
-				<div class="form-box">
-					<h2>Добавить запись в дневник (памяти)</h2>
-					<form action="#" method="get" class="article-form" id="addPostForm">
-						<div class="form-group">
-							<label for="header">Название фильма / Заголовок</label>
-							<input id="header" type="text" name="Header" placeholder="Например: Съемки в Ла-Ла Ленде" required />
-						</div>
-						<div class="form-group">
-							<label for="imageUrl">Ссылка на фото</label>
-							<input id="imageUrl" type="url" name="ImageUrl" placeholder="Например: image.com/image.png" />
-						</div>
-						<div class="form-group">
-							<label for="text">Ваши воспоминания и мысли</label>
-							<textarea id="text" name="Text" placeholder="Расскажите о процессе съемок..." rows="6" required></textarea>
-						</div>
-						<div class="form-actions">
-							<button type="submit" class="btn-submit">Добавить</button>
-							<button type="button" class="btn-cancel" id="btnCancel">Отмена</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</section>
+  @if (isFormVisible) {
+    <section id="formSection">
+      <app-add-post-form 
+        (add)="onAddPost($event)" 
+        (cancel)="toggleForm()">
+      </app-add-post-form>
+    </section>
+  }
 </main>
-
-<template id="postTemplate">
-	<article class="article-card">
-		<button class="delete-btn" title="Удалить статью">&times;</button>
-		<a href="#">
-			<div class="article-image">
-				<img src="" alt="" class="tmpl-img"/>
-			</div>
-			<div class="article-content">
-				<h3 class="tmpl-title"></h3>
-				<p class="tmpl-text"></p>
-				<time class="article-date tmpl-date" datetime=""></time>
-			</div>
-		</a>
-	</article>
-</template>
