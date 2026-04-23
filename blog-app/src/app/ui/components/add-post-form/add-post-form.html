@@ -1,20 +1,68 @@
 <div class="form-box">
-  <h2>Добавить запись в дневник (памяти)</h2>
-  <form class="article-form" (ngSubmit)="onSubmit()">
+  <h2>{{ editPost ? 'Изменить статью' : 'Добавить запись в дневник (памяти)' }}</h2>
+
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="article-form">
+    
     <div class="form-group">
       <label for="header">Название фильма / Заголовок</label>
-      <input id="header" type="text" name="title" [(ngModel)]="formData.title" placeholder="Например: Съемки в Ла-Ла Ленде" required />
+      <input 
+        id="header" 
+        type="text" 
+        formControlName="title" 
+        placeholder="Например: Съемки в Ла-Ла Ленде"
+        [class.invalid-control]="postForm.get('title')?.invalid && postForm.get('title')?.touched"
+      />
+      
+      @if (postForm.get('title')?.invalid && (postForm.get('title')?.dirty || postForm.get('title')?.touched)) {
+        <div class="error-message">
+          @if (postForm.get('title')?.errors?.['required']) {
+            <small>Наименование обязательно для заполнения</small>
+          }
+          @if (postForm.get('title')?.errors?.['minlength']) {
+            <small>Минимальное количество символов в названии: 25</small>
+          }
+        </div>
+      }
     </div>
+
     <div class="form-group">
       <label for="imageUrl">Ссылка на фото</label>
-      <input id="imageUrl" type="url" name="img" [(ngModel)]="formData.img" placeholder="Например: image.com/image.png" />
+      <input 
+        id="imageUrl" 
+        type="url" 
+        formControlName="img" 
+        placeholder="Например: image.com/image.png" 
+      />
     </div>
+
     <div class="form-group">
       <label for="text">Ваши воспоминания и мысли</label>
-      <textarea id="text" name="text" [(ngModel)]="formData.text" placeholder="Расскажите о процессе съемок..." rows="6" required></textarea>
+      <textarea 
+        id="text" 
+        formControlName="text" 
+        placeholder="Расскажите о процессе съемок..." 
+        rows="6"
+        [class.invalid-control]="postForm.get('text')?.invalid && postForm.get('text')?.touched"
+      ></textarea>
+      
+      @if (postForm.get('text')?.invalid && (postForm.get('text')?.dirty || postForm.get('text')?.touched)) {
+        <div class="error-message">
+          @if (postForm.get('text')?.errors?.['required']) {
+            <small>Текст статьи обязателен</small>
+          }
+        </div>
+      }
     </div>
+
     <div class="form-actions">
-      <button type="submit" class="btn-submit" [disabled]="!formData.title || !formData.text">Добавить</button>
+      <button 
+        type="submit" 
+        class="btn-submit" 
+        [disabled]="postForm.invalid"
+      >
+        {{ editPost ? 'Сохранить' : 'Добавить' }}
+      </button>
+      
       <button type="button" class="btn-cancel" (click)="cancel.emit()">Отмена</button>
     </div>
   </form>

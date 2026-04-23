@@ -28,7 +28,11 @@
 
   <section class="articles-grid">
     @for (post of posts; track post.id) {
-      <app-article-card [post]="post" (delete)="onDeletePost($event)"></app-article-card>
+      <app-article-card 
+        [post]="post" 
+        (delete)="onDeletePost($event)"
+        (edit)="onEditPost($event)">
+      </app-article-card>
     } @empty {
       <div class="empty-state" style="display: block;">
         <p>Нет статей</p>
@@ -39,8 +43,10 @@
   @if (isFormVisible) {
     <section id="formSection">
       <app-add-post-form 
+        [editPost]="editingPost"
         (add)="onAddPost($event)" 
-        (cancel)="toggleForm()">
+        (update)="onUpdatePost($event)"
+        (cancel)="onCancelForm()">
       </app-add-post-form>
     </section>
   }

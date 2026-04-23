@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ArticleCard, Post } from '../../components/article-card/article-card';
+import { Post } from '../../../models/post.model';
+import { ArticleCard } from '../../components/article-card/article-card';
 import { AddPostForm } from '../../components/add-post-form/add-post-form';
 
 @Component({
@@ -10,13 +11,12 @@ import { AddPostForm } from '../../components/add-post-form/add-post-form';
   styleUrl: './blog.scss',
 })
 export class Blog {
-  isFormVisible = false;
-  isStatsVisible = false;
+  @ViewChild('statsDialog') private statsDialog!: ElementRef<HTMLDialogElement>;
 
-  @ViewChild('statsDialog') statsDialog!: ElementRef<HTMLDialogElement>;
+  protected isFormVisible = false;
+  protected editingPost: Post | null = null;
 
-  // Посты
-  posts: Post[] = [
+  protected posts: Post[] = [
     {
       id: 1,
       title: 'Бегущий по лезвию 2049 (2017)',
@@ -68,45 +68,68 @@ export class Blog {
     },
   ];
 
-  toggleForm() {
-    this.isFormVisible = !this.isFormVisible;
-    if (this.isFormVisible) {
-      setTimeout(() => {
-        document
-          .getElementById('formSection')
-          ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 50);
-    }
-  }
-
-  toggleStats() {
-    const dialog = this.statsDialog.nativeElement;
-    if (dialog.open) {
-      dialog.close();
+  protected toggleForm(): void {
+    if (this.isFormVisible && this.editingPost) {
+      this.editingPost = null;
     } else {
-      dialog.showModal();
+      this.isFormVisible = !this.isFormVisible;
+      this.editingPost = null;
+    }
+    if (this.isFormVisible) {
+      this.scrollToForm();
     }
   }
 
-  // Метод для добавления новой статьи
-  onAddPost(data: { title: string; img: string; text: string }) {
+  protected toggleStats(): void {
+    const dialog = this.statsDialog.nativeElement;
+    dialog.open ? dialog.close() : dialog.showModal();
+  }
+
+  protected onAddPost(data: any): void {
     const newPost: Post = {
+      ...data,
       id: Date.now(),
-      title: data.title,
-      text: data.text,
-      img: data.img || 'rickroll.jpg',
       date: new Date().toLocaleDateString('ru-RU', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
       }),
+      img: data.img || 'assets/rickroll.jpg',
     };
-
     this.posts.unshift(newPost);
     this.isFormVisible = false;
   }
 
-  onDeletePost(id: number) {
+  protected onEditPost(post: Post): void {
+    this.editingPost = post;
+    this.isFormVisible = true;
+    this.scrollToForm();
+  }
+
+  protected onUpdatePost(updatedPost: Post): void {
+    this.posts = this.posts.map((p) => (p.id === updatedPost.id ? updatedPost : p));
+    this.isFormVisible = false;
+    this.editingPost = null;
+  }
+
+  protected onDeletePost(id: number): void {
     this.posts = this.posts.filter((post) => post.id !== id);
+    if (this.editingPost?.id === id) {
+      this.isFormVisible = false;
+      this.editingPost = null;
+    }
+  }
+
+  protected onCancelForm(): void {
+    this.isFormVisible = false;
+    this.editingPost = null;
+  }
+
+  private scrollToForm(): void {
+    setTimeout(() => {
+      document
+        .getElementById('formSection')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
   }
 }

@@ -126,7 +126,7 @@
 	top: 1.5rem;
 	right: 1.5rem;
 	font-size: 2.8rem;
-	color: #999;
+	color: var(--color-text-light);
 	transition: color 0.3s ease;
 	background: none;
 	border: none;
@@ -161,7 +161,7 @@
 
 .stat-label {
 	font-size: 1.3rem;
-	color: #666;
+	color: var(--color-text-light);
 }
 
 .stat-value {
@@ -176,7 +176,7 @@
 	text-align: center;
 	padding: 8rem 0;
 	font-size: 2rem;
-	color: #999;
+	color: var(--color-text-light);
 	width: 100%;
 }
 
