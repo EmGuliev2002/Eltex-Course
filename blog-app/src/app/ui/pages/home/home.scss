@@ -44,6 +44,10 @@
 	width: 100%;
 	height: 100%;
 	animation: spin 12s linear infinite;
+
+	text {
+		fill: var(--color-primary);
+	}
 }
 @keyframes spin {
 	from {
@@ -84,11 +88,9 @@
 }
 
 /* Цвет фона через псевдоклассы */
-/* Четные карточки - серый фон */
 .portfolio-card:nth-child(even) {
 	background-color: var(--color-gray);
 }
-/* Нечетные карточки - розовый фон */
 .portfolio-card:nth-child(odd) {
 	background-color: var(--color-pink);
 }
@@ -152,7 +154,7 @@
 }
 .btn-outline:hover {
 	background-color: var(--color-accent-green);
-	color: white;
+	color: var(--color-white);
 }
 
 /* Две колонки (Навыки и Опыт работы) */
@@ -171,7 +173,6 @@
 	gap: 2rem;
 }
 
-/* Оформление списка: использование псевдоэлементов для полос */
 .skills-grid li {
 	font-size: 1.8rem;
 	font-weight: 500;
@@ -180,7 +181,6 @@
 	position: relative;
 }
 
-/* Создание разделительной линии под навыком с помощью псевдоэлемента*/
 .skills-grid li::after {
 	content: '';
 	position: absolute;
@@ -206,7 +206,6 @@
 	position: relative;
 }
 
-/* Создание разделительной полосы под опытом работы с помощью псевдоэлемента */
 .job-item::after {
 	content: '';
 	position: absolute;
@@ -245,7 +244,6 @@
 	border-top: 1px solid var(--color-border);
 }
 
-/* Выстраиваем заголовок и текст в одну линию через Flexbox */
 .hobby-header {
 	display: flex;
 	justify-content: space-between;
@@ -265,7 +263,6 @@
 	flex: 1.5;
 }
 
-/* Сетка Grid для картинок.*/
 .hobby-grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr 2fr;
@@ -279,7 +276,6 @@
 	overflow: hidden;
 }
 
-/* Высокие карточки занимают 2 строки вниз по сетке */
 .hobby-card.tall {
 	grid-row: span 2;
 }
@@ -291,7 +287,6 @@
 	transition: transform 0.5s ease;
 }
 
-/* Анимация №1: Увеличение картинки при наведении */
 .hobby-card:hover img {
 	transform: scale(1.05);
 }
@@ -304,6 +299,7 @@
 	left: 0;
 	right: 0;
 	padding: 4rem 3rem;
+	/* Используем цвет primary с прозрачностью */
 	background-color: rgba(45, 50, 57, 0.75);
 	opacity: 0;
 	transition: opacity 0.3s ease;
@@ -319,7 +315,7 @@
 .hobby-overlay h3 {
 	font-size: 2.5rem;
 	margin-bottom: 1.2rem;
-	color: white;
+	color: var(--color-white);
 }
 
 .hobby-overlay p {

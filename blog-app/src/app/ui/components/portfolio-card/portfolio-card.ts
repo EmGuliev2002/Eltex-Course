@@ -1,12 +1,5 @@
 import { Component, Input } from '@angular/core';
-
-export interface PortfolioItem {
-  category: string;
-  colorClass: string;
-  title: string;
-  text: string;
-  img: string;
-}
+import { PortfolioItem } from '../../../models/portfolio-item.model'; 
 
 @Component({
   selector: 'app-portfolio-card',
@@ -15,5 +8,5 @@ export interface PortfolioItem {
   styleUrl: './portfolio-card.scss',
 })
 export class PortfolioCard {
-  @Input({ required: true }) item!: PortfolioItem;
+  @Input({ required: true }) public item!: PortfolioItem;
 }

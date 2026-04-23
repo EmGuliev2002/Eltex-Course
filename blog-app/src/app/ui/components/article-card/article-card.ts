@@ -1,12 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-
-export interface Post {
-  id: number;
-  title: string;
-  text: string;
-  date: string;
-  img: string;
-}
+import { Post } from '../../../models/post.model';
 
 @Component({
   selector: 'app-article-card',
@@ -15,11 +8,19 @@ export interface Post {
   styleUrl: './article-card.scss',
 })
 export class ArticleCard {
-  @Input({ required: true }) post!: Post;
-  @Output() delete = new EventEmitter<number>();
+  @Input({ required: true }) public post!: Post;
+  @Output() public delete = new EventEmitter<number>();
+  @Output() public edit = new EventEmitter<Post>();
 
-  onDelete(event: Event) {
+  protected onDelete(event: Event): void {
+    event.stopPropagation();
     event.preventDefault();
     this.delete.emit(this.post.id);
+  }
+
+  protected onEdit(event: Event): void {
+    event.stopPropagation();
+    event.preventDefault();
+    this.edit.emit(this.post);
   }
 }

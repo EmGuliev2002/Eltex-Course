@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PortfolioCard } from '../../components/portfolio-card/portfolio-card';
+import { PortfolioItem } from '../../../models/portfolio-item.model'; 
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   imports: [RouterLink, PortfolioCard],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class Home {
-  // Данные для блока Портфолио
-  portfolioItems = [
+  protected portfolioItems: PortfolioItem[] = [
     {
       category: 'Блокбастер',
       colorClass: 'orange-text',
@@ -27,8 +28,7 @@ export class Home {
     },
   ];
 
-  // Массив навыков
-  skills = [
+  protected skills: string[] = [
     'Актёрское мастерство',
     'Экстремальное вождение (Драйв)',
     'Игра на джазовом фортепиано',
@@ -37,8 +37,7 @@ export class Home {
     'Молчаливая харизма',
   ];
 
-  // Данные для опыта работы
-  careerItems = [
+  protected careerItems = [
     {
       meta: 'The Mickey Mouse Club - (1993 - 1995)',
       title: 'Старт карьеры',
@@ -59,8 +58,7 @@ export class Home {
     },
   ];
 
-  // Данные для хобби
-  hobbyItems = [
+  protected hobbyItems = [
     {
       title: "Dead Man's Bones",
       text: 'В 2009 году основал инди-рок группу. Мы выпустили альбом, где я пою, играю на фортепиано, гитаре и виолончели.',
