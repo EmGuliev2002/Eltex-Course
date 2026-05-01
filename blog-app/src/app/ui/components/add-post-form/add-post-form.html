@@ -1,5 +1,5 @@
 <div class="form-box">
-  <h2>{{ editPost ? 'Изменить статью' : 'Добавить запись в дневник (памяти)' }}</h2>
+  <h2>{{ formTitle() }}</h2>
 
   <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="article-form">
     
@@ -10,16 +10,12 @@
         type="text" 
         formControlName="title" 
         placeholder="Например: Съемки в Ла-Ла Ленде"
-        [class.invalid-control]="postForm.get('title')?.invalid && postForm.get('title')?.touched"
+        [class.invalid-control]="hasError('title')"
       />
-      
-      @if (postForm.get('title')?.invalid && (postForm.get('title')?.dirty || postForm.get('title')?.touched)) {
+      @if (hasError('title')) {
         <div class="error-message">
-          @if (postForm.get('title')?.errors?.['required']) {
-            <small>Наименование обязательно для заполнения</small>
-          }
-          @if (postForm.get('title')?.errors?.['minlength']) {
-            <small>Минимальное количество символов в названии: 25</small>
+          @for (errorMsg of getControlErrors('title'); track $index) {
+            <small>{{ errorMsg }}</small>
           }
         </div>
       }
@@ -42,13 +38,13 @@
         formControlName="text" 
         placeholder="Расскажите о процессе съемок..." 
         rows="6"
-        [class.invalid-control]="postForm.get('text')?.invalid && postForm.get('text')?.touched"
+        [class.invalid-control]="hasError('text')"
       ></textarea>
       
-      @if (postForm.get('text')?.invalid && (postForm.get('text')?.dirty || postForm.get('text')?.touched)) {
+      @if (hasError('text')) {
         <div class="error-message">
-          @if (postForm.get('text')?.errors?.['required']) {
-            <small>Текст статьи обязателен</small>
+          @for (errorMsg of getControlErrors('text'); track $index) {
+            <small>{{ errorMsg }}</small>
           }
         </div>
       }
@@ -60,7 +56,7 @@
         class="btn-submit" 
         [disabled]="postForm.invalid"
       >
-        {{ editPost ? 'Сохранить' : 'Добавить' }}
+        {{ saveButtonTitle() }}
       </button>
       
       <button type="button" class="btn-cancel" (click)="cancel.emit()">Отмена</button>

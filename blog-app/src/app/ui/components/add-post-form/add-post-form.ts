@@ -1,19 +1,14 @@
 import {
   Component,
   EventEmitter,
-  Input,
   OnInit,
   Output,
   OnChanges,
   SimpleChanges,
+  input,
+  computed,
 } from '@angular/core';
-import {
-  ReactiveFormsModule,
-  FormGroup,
-  FormControl,
-  Validators,
-  FormBuilder,
-} from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Post } from '../../../models/post.model';
 
@@ -25,11 +20,19 @@ import { Post } from '../../../models/post.model';
   styleUrl: './add-post-form.scss',
 })
 export class AddPostForm implements OnInit, OnChanges {
-  @Input() public editPost: Post | null = null;
+  // Перевод Input на сигналы
+  public editPost = input<Post | null>(null);
 
   @Output() public add = new EventEmitter<Omit<Post, 'id' | 'date'>>();
   @Output() public update = new EventEmitter<Post>();
   @Output() public cancel = new EventEmitter<void>();
+
+  // Вычисляемые свойства для заголовка и кнопки
+  protected formTitle = computed(() =>
+    this.editPost() ? 'Изменить статью' : 'Добавить запись в дневник (памяти)',
+  );
+
+  protected saveButtonTitle = computed(() => (this.editPost() ? 'Сохранить' : 'Добавить'));
 
   protected postForm: FormGroup;
 
@@ -52,11 +55,12 @@ export class AddPostForm implements OnInit, OnChanges {
   }
 
   private initFormData(): void {
-    if (this.editPost) {
+    const post = this.editPost();
+    if (post) {
       this.postForm.patchValue({
-        title: this.editPost.title,
-        text: this.editPost.text,
-        img: this.editPost.img,
+        title: post.title,
+        text: post.text,
+        img: post.img,
       });
     } else {
       this.postForm.reset();
@@ -67,10 +71,11 @@ export class AddPostForm implements OnInit, OnChanges {
     if (this.postForm.invalid) return;
 
     const formValue = this.postForm.value;
+    const currentEditPost = this.editPost();
 
-    if (this.editPost) {
+    if (currentEditPost) {
       this.update.emit({
-        ...this.editPost,
+        ...currentEditPost,
         ...formValue,
       });
     } else {
@@ -78,5 +83,36 @@ export class AddPostForm implements OnInit, OnChanges {
     }
 
     this.postForm.reset();
+  }
+
+  // Методы для обработки ошибок валидации
+  protected hasError(controlName: string): boolean {
+    const control = this.postForm.get(controlName);
+    return !!(control?.invalid && (control?.dirty || control?.touched));
+  }
+
+  protected getControlErrors(controlName: string): string[] {
+    const control = this.postForm.get(controlName);
+    const errors = control?.errors;
+
+    if (errors) {
+      return Object.entries(errors).map(([key, value]) =>
+        this.getErrorStr(key, value, controlName),
+      );
+    }
+    return [];
+  }
+
+  private getErrorStr(errorCode: string, errorData: any, controlName: string): string {
+    switch (errorCode) {
+      case 'required':
+        return controlName === 'title'
+          ? 'Наименование обязательно для заполнения'
+          : 'Текст статьи обязателен';
+      case 'minlength':
+        return `Минимальное количество символов в названии: ${errorData.requiredLength}`;
+      default:
+        return 'Ошибка при заполнении поля';
+    }
   }
 }

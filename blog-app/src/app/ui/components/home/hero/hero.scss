@@ -1,0 +1,83 @@
+.hero-section {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 6rem;
+	align-items: center;
+	padding: 4rem 0 8rem;
+}
+
+.hero-text h1 {
+	color: var(--color-primary);
+}
+
+.more-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.8rem;
+	color: var(--color-accent-green);
+	font-weight: 600;
+	font-size: 1.8rem;
+	margin-top: 2rem;
+	text-underline-offset: 4px;
+	transition: gap 0.3s ease;
+}
+.more-link:hover {
+	gap: 1.6rem;
+}
+
+/* Крутящийся текст */
+.hero-visual {
+	position: relative;
+}
+.circle-badge {
+	position: absolute;
+	top: 15%;
+	right: 100%;
+	width: 12rem;
+	height: 12rem;
+	z-index: 2;
+}
+
+/* Анимация вращения */
+.spinning-text {
+	width: 100%;
+	height: 100%;
+	animation: spin 12s linear infinite;
+
+	text {
+		fill: var(--color-primary);
+	}
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.arrow-down {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 2.4rem;
+	color: var(--color-primary);
+}
+
+.hero-image {
+	width: 100%;
+	height: auto;
+	border-radius: 2rem;
+	position: relative;
+	z-index: 1;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+	.hero-section {
+		grid-template-columns: 1fr;
+	}
+}

@@ -14,7 +14,7 @@
     <div class="stats-grid">
       <div class="stat-card">
         <span class="stat-label">Всего статей:</span>
-        <span class="stat-value">{{ posts.length }}</span>
+        <span class="stat-value">{{ store.articles().length }}</span>
       </div>
     </div>
   </div>
@@ -39,6 +39,14 @@
       </div>
     }
   </section>
+
+  @if (posts.length < totalArticles) {
+    <div class="pagination">
+      <button class="pagination-next" (click)="onShowMore()">
+        Больше фильмов →
+      </button>
+    </div>
+  }
 
   @if (isFormVisible) {
     <section id="formSection">
