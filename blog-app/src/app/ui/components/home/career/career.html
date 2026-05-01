@@ -1,0 +1,21 @@
+<section class="two-columns work-section">
+  <div class="col-left">
+    <h2>Карьера</h2>
+    <p>
+      Ключевые этапы моего творческого пути: от детских шоу до главных
+      голливудских блокбастеров и номинаций на премию «Оскар».
+    </p>
+  </div>
+  <div class="col-right work-list">
+    @for (job of careerItems; track job.title) {
+      <article class="job-item">
+        <div class="job-icon" [class]="job.iconClass"></div>
+        <div class="job-text">
+          <span class="job-meta">{{ job.meta }}</span>
+          <h3>{{ job.title }}</h3>
+          <p>{{ job.text }}</p>
+        </div>
+      </article>
+    }
+  </div>
+</section>

@@ -209,3 +209,31 @@
 		font-size: 4rem;
 	}
 }
+
+.pagination {
+	display: flex;
+	justify-content: flex-end;
+	padding: 2rem 0 4rem;
+}
+
+.pagination-next {
+	font-weight: 600;
+	font-size: 1.8rem;
+	color: var(--color-accent-green);
+	text-decoration: none;
+	transition: all 0.3s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	border: 2px solid var(--color-accent-green);
+	padding: 1rem 2.4rem;
+	border-radius: 4rem;
+	background-color: transparent;
+	cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-accent-green);
+    color: white;
+    gap: 1rem;
+  }
+}

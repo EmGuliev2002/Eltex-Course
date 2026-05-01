@@ -1,87 +1,16 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { PortfolioCard } from '../../components/portfolio-card/portfolio-card';
-import { PortfolioItem } from '../../../models/portfolio-item.model'; 
+import { Hero } from '../../components/home/hero/hero';
+import { LatestArticles } from '../../components/home/latest-articles/latest-articles';
+import { Skills } from '../../components/home/skills/skills';
+import { Career } from '../../components/home/career/career';
+import { Hobby } from '../../components/home/hobby/hobby';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, PortfolioCard],
+  imports: [Hero, LatestArticles, Skills, Career, Hobby],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class Home {
-  protected portfolioItems: PortfolioItem[] = [
-    {
-      category: 'Блокбастер',
-      colorClass: 'orange-text',
-      title: 'Барби (2023)',
-      text: 'Райан Гослинг в фильме «Барби» играет роль Кена — стереотипного бойфренда главной героини, который отправляется с ней из идеального Барбиленда в реальный мир. Его персонаж — комичный, неуверенный в себе, но любящий Кен, который переживает кризис самоопределения.',
-      img: 'photo 2.webp',
-    },
-    {
-      category: 'Культовое кино',
-      colorClass: 'green-text',
-      title: 'Драйв (2011)',
-      text: 'Стильный криминальный триллер, где Райан Гослинг играет безымянного каскадёра и автомеханика, подрабатывающего перевозчиком преступников. Молчаливый антигерой в куртке со скорпионом навсегда закрепился в поп-культуре и породил волну мемов «literally me».',
-      img: 'photo 1.jpg',
-    },
-  ];
-
-  protected skills: string[] = [
-    'Актёрское мастерство',
-    'Экстремальное вождение (Драйв)',
-    'Игра на джазовом фортепиано',
-    'Продюсирование и режиссура',
-    'Вокал и игра на гитаре',
-    'Молчаливая харизма',
-  ];
-
-  protected careerItems = [
-    {
-      meta: 'The Mickey Mouse Club - (1993 - 1995)',
-      title: 'Старт карьеры',
-      text: 'Выступал в знаменитом детском шоу на канале Disney вместе с будущими мировыми звездами: Джастином Тимберлейком, Бритни Спирс и Кристиной Агилерой.',
-      iconClass: 'circle-orange-blue',
-    },
-    {
-      meta: 'Дневник памяти - (2004)',
-      title: 'Мировой прорыв',
-      text: 'Сыграл Ноя Кэлхуна в культовой романтической драме. Эта роль принесла мне первую широкую мировую известность и статус романтического героя.',
-      iconClass: 'diamond-orange',
-    },
-    {
-      meta: 'Ла-Ла Ленд - (2016)',
-      title: 'Признание критиков',
-      text: 'Роль джазового пианиста Себастьяна. Ради фильма я научился играть на фортепиано с нуля. Получил «Золотой глобус» и номинацию на «Оскар» за лучшую мужскую роль.',
-      iconClass: 'circle-blue',
-    },
-  ];
-
-  protected hobbyItems = [
-    {
-      title: "Dead Man's Bones",
-      text: 'В 2009 году основал инди-рок группу. Мы выпустили альбом, где я пою, играю на фортепиано, гитаре и виолончели.',
-      img: 'hobby 1.jpg',
-      sizeClass: 'tall',
-    },
-    {
-      title: 'Режиссура',
-      text: 'Снял свой первый авторский фильм «Как поймать монстра» (Lost River) в 2014 году. Это нео-нуарная сказка.',
-      img: 'hobby 2.jpg',
-      sizeClass: 'tall',
-    },
-    {
-      title: 'Столярное дело',
-      text: 'Люблю работать руками. Кухонный стол, который мой персонаж делает в «Дневнике памяти», я смастерил сам.',
-      img: 'hobby 3.jpg',
-      sizeClass: 'wide',
-    },
-    {
-      title: 'Любовь к танцам',
-      text: 'В детстве я занимался балетом, что сильно помогло мне позже при подготовке к сложным хореографическим сценам.',
-      img: 'hobby 4.jpg',
-      sizeClass: 'wide',
-    },
-  ];
 }

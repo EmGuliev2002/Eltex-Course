@@ -1,0 +1,19 @@
+@if (latestArticles().length > 0) {
+  <section class="portfolio-section">
+    <div class="container">
+      <h2>Последние записи из дневника</h2>
+      
+      <div class="latest-grid">
+        @for (post of latestArticles(); track post.id) {
+          <app-article-card [post]="post"></app-article-card>
+        }
+      </div>
+
+      <div class="center-button">
+        <button class="btn-outline" routerLink="/blog">
+          Посмотреть всю фильмографию
+        </button>
+      </div>
+    </div>
+  </section>
+}

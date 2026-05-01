@@ -1,0 +1,21 @@
+<section class="hobby-section">
+  <div class="hobby-header">
+    <h2>Увлечения вне кино</h2>
+    <p>
+      Помимо актёрской игры, я пишу собственную музыку, снимаю инди-кино
+      как режиссёр и даже занимаюсь столярным делом в свободное время.
+    </p>
+  </div>
+  
+  <div class="hobby-grid">
+    @for (hobby of hobbyItems; track hobby.title) {
+      <div class="hobby-card" [class]="hobby.sizeClass">
+        <img [src]="hobby.img" [alt]="hobby.title" />
+        <div class="hobby-overlay">
+          <h3>{{ hobby.title }}</h3>
+          <p>{{ hobby.text }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</section>
