@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewChild, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject, OnInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Post } from '../../../models/post.model';
 import { ArticleCard } from '../../components/article-card/article-card';
 import { AddPostForm } from '../../components/add-post-form/add-post-form';
@@ -16,14 +17,15 @@ export class Blog implements OnInit {
   @ViewChild('statsDialog') private statsDialog!: ElementRef<HTMLDialogElement>;
 
   private articlesService = inject(ARTICLES_SERVICE);
+  private destroyRef = inject(DestroyRef);
   protected store = inject(ArticlesStoreService);
 
   protected isFormVisible = false;
   protected editingPost: Post | null = null;
 
-  // Состояние страницы
-  protected posts: Post[] = [];
-  protected totalArticles = 0;
+  protected posts = this.store.articles;
+  protected totalArticles = this.store.totalCount;
+
   protected readonly limit = 7;
 
   public ngOnInit(): void {
@@ -31,18 +33,48 @@ export class Blog implements OnInit {
   }
 
   protected loadArticles(): void {
-    const page = this.store.currentPage();
-    this.articlesService.getArticles(page, this.limit).subscribe((res) => {
-      this.posts = res.articles;
-      this.totalArticles = res.totalCount;
-    });
+    this.articlesService
+      .getArticles(this.store.currentPage(), this.limit)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 
-  // Логика пагинации
   protected onShowMore(): void {
     const nextPage = this.store.currentPage() + 1;
-    this.store.saveActivePage(nextPage);
-    this.loadArticles();
+    this.articlesService
+      .getArticles(nextPage, this.limit)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
+  }
+
+  protected onAddPost(data: Omit<Post, 'id' | 'date'>): void {
+    this.articlesService
+      .addArticle(data)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.isFormVisible = false;
+      });
+  }
+
+  protected onUpdatePost(updatedPost: Post): void {
+    this.articlesService
+      .updateArticle(updatedPost)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.isFormVisible = false;
+        this.editingPost = null;
+      });
+  }
+
+  protected onDeletePost(id: number): void {
+    this.articlesService
+      .deleteArticle(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        if (this.editingPost?.id === id) {
+          this.onCancelForm();
+        }
+      });
   }
 
   protected toggleForm(): void {
@@ -62,35 +94,10 @@ export class Blog implements OnInit {
     dialog.open ? dialog.close() : dialog.showModal();
   }
 
-  protected onAddPost(data: any): void {
-    this.articlesService.addArticle(data).subscribe(() => {
-      this.loadArticles();
-      this.isFormVisible = false;
-    });
-  }
-
   protected onEditPost(post: Post): void {
     this.editingPost = post;
     this.isFormVisible = true;
     this.scrollToForm();
-  }
-
-  protected onUpdatePost(updatedPost: Post): void {
-    this.articlesService.updateArticle(updatedPost).subscribe(() => {
-      this.loadArticles();
-      this.isFormVisible = false;
-      this.editingPost = null;
-    });
-  }
-
-  protected onDeletePost(id: number): void {
-    this.articlesService.deleteArticle(id).subscribe(() => {
-      this.loadArticles();
-      if (this.editingPost?.id === id) {
-        this.isFormVisible = false;
-        this.editingPost = null;
-      }
-    });
   }
 
   protected onCancelForm(): void {

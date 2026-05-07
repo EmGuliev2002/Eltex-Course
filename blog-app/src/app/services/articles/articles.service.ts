@@ -1,28 +1,46 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { Post } from '../../models/post.model';
-import { IArticlesService, ArticlesResponse } from './articles-service.interface';
+import { IArticlesService } from './articles-service.interface';
+import { ArticlesResponse } from './types/articles-response';
 import { ArticlesStoreService } from './articles-store.service';
+import { INITIAL_POSTS } from '../../data/initial-posts';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticlesService implements IArticlesService {
+  private readonly storageKey = 'ryan_gosling_blog';
+  private readonly pageKey = 'blog_active_page';
+
   private store = inject(ArticlesStoreService);
 
-  public getArticles(page: number, limit: number): Observable<ArticlesResponse> {
-    const allArticles = this.store.articles();
-    const startIndex = 0;
-    const endIndex = page * limit;
-    const paginatedArticles = allArticles.slice(startIndex, endIndex);
+  constructor() {
+    this.initStore();
+  }
 
-    return of({
+  public getArticles(page: number, limit: number): Observable<ArticlesResponse> {
+    const allArticles = this.getFromStorage();
+    const endIndex = page * limit;
+    const paginatedArticles = allArticles.slice(0, endIndex);
+
+    const response: ArticlesResponse = {
       articles: paginatedArticles,
       totalCount: allArticles.length,
-    });
+    };
+
+    return of(response).pipe(
+      tap((res) => {
+        this.store.setArticles(res.articles);
+        this.store.setTotalCount(res.totalCount);
+        this.store.setCurrentPage(page);
+        localStorage.setItem(this.pageKey, page.toString());
+      }),
+    );
   }
 
   public addArticle(data: Omit<Post, 'id' | 'date'>): Observable<Post[]> {
+    const allArticles = this.getFromStorage();
     const newPost: Post = {
       ...data,
       id: Date.now(),
@@ -31,28 +49,43 @@ export class ArticlesService implements IArticlesService {
         month: 'long',
         year: 'numeric',
       }),
-      img: data.img || 'rickroll.jpg',
+      img: data.img || 'photo 3.jpg',
     };
 
-    const updatedArticles = [newPost, ...this.store.articles()];
-    this.store.saveArticles(updatedArticles);
+    const updated = [newPost, ...allArticles];
+    this.saveToStorage(updated);
 
-    return of(updatedArticles);
+    return of(updated).pipe(tap(() => this.getArticles(this.store.currentPage(), 7).subscribe()));
   }
 
   public updateArticle(updatedPost: Post): Observable<Post[]> {
-    const updatedArticles = this.store
-      .articles()
-      .map((p) => (p.id === updatedPost.id ? updatedPost : p));
+    const allArticles = this.getFromStorage();
+    const updated = allArticles.map((p) => (p.id === updatedPost.id ? updatedPost : p));
 
-    this.store.saveArticles(updatedArticles);
-    return of(updatedArticles);
+    this.saveToStorage(updated);
+    return of(updated).pipe(tap(() => this.getArticles(this.store.currentPage(), 7).subscribe()));
   }
 
   public deleteArticle(id: number): Observable<Post[]> {
-    const updatedArticles = this.store.articles().filter((p) => p.id !== id);
+    const allArticles = this.getFromStorage();
+    const updated = allArticles.filter((p) => p.id !== id);
 
-    this.store.saveArticles(updatedArticles);
-    return of(updatedArticles);
+    this.saveToStorage(updated);
+    return of(updated).pipe(tap(() => this.getArticles(this.store.currentPage(), 7).subscribe()));
+  }
+
+  private getFromStorage(): Post[] {
+    const data = localStorage.getItem(this.storageKey);
+    return data ? JSON.parse(data) : INITIAL_POSTS;
+  }
+
+  private saveToStorage(posts: Post[]): void {
+    localStorage.setItem(this.storageKey, JSON.stringify(posts));
+  }
+
+  private initStore(): void {
+    const savedPage = localStorage.getItem(this.pageKey);
+    const page = savedPage ? Number(savedPage) : 1;
+    this.getArticles(page, 7).subscribe();
   }
 }

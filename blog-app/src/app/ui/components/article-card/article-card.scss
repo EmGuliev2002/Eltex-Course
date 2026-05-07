@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
 .article-card {
   position: relative;
   background: var(--color-background);
@@ -5,6 +10,9 @@
   border-radius: 1.6rem;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   &:hover {
     transform: translateY(-0.5rem);
@@ -13,6 +21,12 @@
     .card-actions {
       opacity: 1;
     }
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 }
 
@@ -30,7 +44,7 @@
 .action-btn {
   width: 3.6rem;
   height: 3.6rem;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: var(--color-white);
   border: none;
   border-radius: 50%;
   display: flex;
@@ -64,6 +78,7 @@
 .article-image {
   height: 22rem;
   overflow: hidden;
+  flex-shrink: 0;
 
   img {
     width: 100%;
@@ -79,6 +94,9 @@
 
 .article-content {
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 
   h3 {
     font-size: 2rem;
@@ -91,6 +109,11 @@
     font-size: 1.4rem;
     margin-bottom: 1.6rem;
     color: var(--color-text-light);
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 
@@ -99,6 +122,7 @@
   color: var(--color-text-light);
   font-size: 1.4rem;
   font-weight: 500;
+  margin-top: auto;
 }
 
 .article-card a:hover h3 {

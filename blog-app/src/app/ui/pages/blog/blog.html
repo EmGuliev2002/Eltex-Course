@@ -27,7 +27,7 @@
   </section>
 
   <section class="articles-grid">
-    @for (post of posts; track post.id) {
+    @for (post of posts(); track post.id) {
       <app-article-card 
         [post]="post" 
         (delete)="onDeletePost($event)"
@@ -40,7 +40,7 @@
     }
   </section>
 
-  @if (posts.length < totalArticles) {
+  @if (posts().length < totalArticles()) {
     <div class="pagination">
       <button class="pagination-next" (click)="onShowMore()">
         Больше фильмов →
