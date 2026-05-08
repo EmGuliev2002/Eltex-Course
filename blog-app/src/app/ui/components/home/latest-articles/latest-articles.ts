@@ -16,6 +16,7 @@ export class LatestArticles implements OnInit {
   private store = inject(ArticlesStoreService);
   private articlesService = inject(ARTICLES_SERVICE);
   private destroyRef = inject(DestroyRef);
+
   protected latestArticles = computed(() => this.store.articles().slice(0, 2));
 
   public ngOnInit(): void {

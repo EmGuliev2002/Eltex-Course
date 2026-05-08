@@ -1,54 +1,152 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+  height: 100%;
+}
 /* Подключение шрифта */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* Глобальные переменные для цветов */
 :root {
-	--color-primary: #2d3239;
-	--color-text: #2d3239;
-	--color-text-light: #5a5f66;
-	--color-background: #ffffff;
-	--color-white: #ffffff;
-	--color-accent-orange: #ff6b4a;
-	--color-accent-green: #4caf50;
-	--color-green-hover: #3f8f40;
-	--color-pink: #ffe9e5;
-	--color-gray: #f5f5f5;
-	--color-border: #e5e5e5;
-	--color-error: #ff4d4f;
+  --color-primary: #2d3239;
+  --color-text: #2d3239;
+  --color-text-light: #5a5f66;
+  --color-background: #ffffff;
+  --color-white: #ffffff;
+  --color-accent-orange: #ff6b4a;
+  --color-accent-green: #4caf50;
+  --color-green-hover: #3f8f40;
+  --color-pink: #ffe9e5;
+  --color-gray: #f5f5f5;
+  --color-border: #e5e5e5;
+  --color-error: #ff4d4f;
 }
 
 /* Сброс стилей */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { font-size: 62.5%; scroll-behavior: smooth; }
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
 body {
-	font-family: 'Inter', sans-serif;
-	font-weight: 400;
-	font-size: 1.6rem;
-	line-height: 1.5;
-	color: var(--color-text);
-	background-color: var(--color-background);
-	-webkit-font-smoothing: antialiased;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
 }
 
-ul, ol { list-style: none; }
-a { text-decoration: none; color: inherit; }
-img { max-width: 100%; height: auto; display: block; }
-input, button, textarea, select { font: inherit; border: none; outline: none; background: none; }
-button { cursor: pointer; }
+ul,
+ol {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  border: none;
+  outline: none;
+  background: none;
+}
+button {
+  cursor: pointer;
+}
 
 /* Общий контейнер */
 .container {
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 0 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
-h1, h2, h3, h4 { color: var(--color-primary); }
-h1 { font-weight: 700; font-size: 5.2rem; line-height: 1.2; margin-bottom: 2rem; }
-h2 { font-weight: 700; font-size: 4rem; line-height: 1.3; margin-bottom: 2rem; }
-h3 { font-weight: 700; font-size: 3.2rem; line-height: 1.4; margin-bottom: 1.5rem; }
-p { font-weight: 400; font-size: 1.6rem; line-height: 1.6; color: var(--color-text-light); }
+h1,
+h2,
+h3,
+h4 {
+  color: var(--color-primary);
+}
+h1 {
+  font-weight: 700;
+  font-size: 5.2rem;
+  line-height: 1.2;
+  margin-bottom: 2rem;
+}
+h2 {
+  font-weight: 700;
+  font-size: 4rem;
+  line-height: 1.3;
+  margin-bottom: 2rem;
+}
+h3 {
+  font-weight: 700;
+  font-size: 3.2rem;
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
+}
+p {
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.6;
+  color: var(--color-text-light);
+}
 
 /* Стили для заблокированных кнопок */
-button:disabled { cursor: not-allowed; opacity: 0.6; pointer-events: auto; }
-button:disabled:hover { transform: none; }
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: auto;
+}
+button:disabled:hover {
+  transform: none;
+}

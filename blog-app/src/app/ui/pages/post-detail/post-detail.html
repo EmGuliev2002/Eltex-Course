@@ -1,0 +1,96 @@
+<main class="container detail-page">
+  @if (store.post(); as post) {
+    <section class="post-main">
+      <button mat-stroked-button class="back-btn" routerLink="/blog">
+        <mat-icon>arrow_back</mat-icon> Назад к списку
+      </button>
+
+      <div class="post-header">
+        <img [src]="post.img" [alt]="post.title" class="main-img" />
+        <div class="header-info">
+          <h1>{{ post.title }}</h1>
+          <p class="post-date">{{ post.date }}</p>
+          
+          <div class="rating-box">
+            <span class="label">Оценка:</span>
+            <div class="stars">
+              @for (star of maxRating; track star) {
+                <button mat-icon-button (click)="setPostRating(star)">
+                  <mat-icon [class.active-star]="star <= (post.rating || 0)">
+                    {{ star <= (post.rating || 0) ? 'star' : 'star_border' }}
+                  </mat-icon>
+                </button>
+              }
+              <span class="rating-value">{{ post.rating || 0 }} / 5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-content">
+        <p>{{ post.text }}</p>
+      </div>
+    </section>
+
+    <mat-divider></mat-divider>
+
+    <section class="comments-section">
+      <h2>Комментарии ({{ store.comments().length }})</h2>
+
+      <div class="comments-list">
+        @for (comment of store.comments(); track comment.id) {
+          <mat-card class="comment-card">
+            <mat-card-header>
+              <div mat-card-avatar class="avatar-icon">
+                <mat-icon>account_circle</mat-icon>
+              </div>
+              <mat-card-title>{{ comment.author }}</mat-card-title>
+              <mat-card-subtitle>{{ comment.date }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ comment.text }}</p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+              <div class="comment-rating">
+                <span>Рейтинг: {{ comment.rating }}</span>
+                <button mat-icon-button (click)="changeCommentRating(comment.id, comment.rating, -1)">
+                  <mat-icon>thumb_down</mat-icon>
+                </button>
+                <button mat-icon-button (click)="changeCommentRating(comment.id, comment.rating, 1)">
+                  <mat-icon>thumb_up</mat-icon>
+                </button>
+              </div>
+            </mat-card-actions>
+          </mat-card>
+        } @empty {
+          <div class="no-comments">
+            <p>Пока нет комментариев. Будьте первым!</p>
+          </div>
+        }
+      </div>
+
+      <mat-card class="add-comment-card">
+        <h3>Оставить отзыв</h3>
+        <form [formGroup]="commentForm" (ngSubmit)="onSubmitComment()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Ваше имя</mat-label>
+            <input matInput formControlName="author" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Текст комментария</mat-label>
+            <textarea matInput formControlName="text" rows="4"></textarea>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" type="submit" [disabled]="commentForm.invalid">
+            <mat-icon>send</mat-icon> Отправить
+          </button>
+        </form>
+      </mat-card>
+    </section>
+  } @else {
+    <div class="loading">
+      <p>Загрузка данных о фильме...</p>
+    </div>
+  }
+</main>

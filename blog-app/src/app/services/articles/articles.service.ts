@@ -49,7 +49,7 @@ export class ArticlesService implements IArticlesService {
         month: 'long',
         year: 'numeric',
       }),
-      img: data.img || 'photo 3.jpg',
+      img: data.img || 'rickroll.jpg',
     };
 
     const updated = [newPost, ...allArticles];

@@ -1,5 +1,9 @@
 import { Component, ElementRef, ViewChild, inject, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Title } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { Post } from '../../../models/post.model';
 import { ArticleCard } from '../../components/article-card/article-card';
 import { AddPostForm } from '../../components/add-post-form/add-post-form';
@@ -9,7 +13,7 @@ import { ArticlesStoreService } from '../../../services/articles/articles-store.
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [ArticleCard, AddPostForm],
+  imports: [CommonModule, ArticleCard, AddPostForm, MatIconModule, MatButtonModule],
   templateUrl: './blog.html',
   styleUrl: './blog.scss',
 })
@@ -18,6 +22,7 @@ export class Blog implements OnInit {
 
   private articlesService = inject(ARTICLES_SERVICE);
   private destroyRef = inject(DestroyRef);
+  private titleService = inject(Title);
   protected store = inject(ArticlesStoreService);
 
   protected isFormVisible = false;
@@ -25,10 +30,10 @@ export class Blog implements OnInit {
 
   protected posts = this.store.articles;
   protected totalArticles = this.store.totalCount;
-
   protected readonly limit = 7;
 
   public ngOnInit(): void {
+    this.titleService.setTitle('Фильмография - Райан Гослинг');
     this.loadArticles();
   }
 
@@ -47,13 +52,19 @@ export class Blog implements OnInit {
       .subscribe();
   }
 
-  protected onAddPost(data: Omit<Post, 'id' | 'date'>): void {
+  protected onAddPost(data: any): void {
     this.articlesService
       .addArticle(data)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.isFormVisible = false;
       });
+  }
+
+  protected onEditPost(post: Post): void {
+    this.editingPost = post;
+    this.isFormVisible = true;
+    this.scrollToForm();
   }
 
   protected onUpdatePost(updatedPost: Post): void {
@@ -92,12 +103,6 @@ export class Blog implements OnInit {
   protected toggleStats(): void {
     const dialog = this.statsDialog.nativeElement;
     dialog.open ? dialog.close() : dialog.showModal();
-  }
-
-  protected onEditPost(post: Post): void {
-    this.editingPost = post;
-    this.isFormVisible = true;
-    this.scrollToForm();
   }
 
   protected onCancelForm(): void {
