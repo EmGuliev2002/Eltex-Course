@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { Post } from '../../../models/post.model';
 
 @Component({
   selector: 'app-article-card',
   standalone: true,
+  imports: [RouterLink, MatIconModule],
   templateUrl: './article-card.html',
   styleUrl: './article-card.scss',
 })

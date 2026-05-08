@@ -1,8 +1,7 @@
-export interface Post {
+export interface PostComment {
   id: number;
-  title: string;
+  author: string;
   text: string;
   date: string;
-  img: string;
   rating: number;
 }

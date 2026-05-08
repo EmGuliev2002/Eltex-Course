@@ -1,9 +1,9 @@
 <aside class="admin-panel">
-  <button class="admin-btn" title="Добавить статью" (click)="toggleForm()">
-    <img src="Post add.png" alt="Добавить статью" />
+  <button mat-icon-button color="primary" title="Добавить статью" (click)="toggleForm()">
+    <mat-icon>add_circle</mat-icon>
   </button>
-  <button class="admin-btn" title="Просмотр статистики" (click)="toggleStats()">
-    <img src="Vector.png" alt="Просмотр статистики" />
+  <button mat-icon-button color="accent" title="Просмотр статистики" (click)="toggleStats()">
+    <mat-icon>bar_chart</mat-icon>
   </button>
 </aside>
 
@@ -14,7 +14,7 @@
     <div class="stats-grid">
       <div class="stat-card">
         <span class="stat-label">Всего статей:</span>
-        <span class="stat-value">{{ store.articles().length }}</span>
+        <span class="stat-value">{{ store.totalCount() }}</span>
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@
   </section>
 
   <section class="articles-grid">
-    @for (post of posts; track post.id) {
+    @for (post of posts(); track post.id) {
       <app-article-card 
         [post]="post" 
         (delete)="onDeletePost($event)"
@@ -40,7 +40,7 @@
     }
   </section>
 
-  @if (posts.length < totalArticles) {
+  @if (posts().length < totalArticles()) {
     <div class="pagination">
       <button class="pagination-next" (click)="onShowMore()">
         Больше фильмов →
