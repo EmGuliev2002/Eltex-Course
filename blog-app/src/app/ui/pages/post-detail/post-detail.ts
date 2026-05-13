@@ -2,18 +2,16 @@ import { Component, inject, OnInit, DestroyRef } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { PostDetailService } from '../../../services/post-detail/post-detail.service';
 import { PostDetailStoreService } from '../../../services/post-detail/post-detail-store.service';
+import { AddCommentForm } from '../../components/add-comment-form/add-comment-form';
 
 @Component({
   selector: 'app-post-detail',
@@ -21,13 +19,11 @@ import { PostDetailStoreService } from '../../../services/post-detail/post-detai
   imports: [
     CommonModule,
     RouterLink,
-    ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatDividerModule,
+    AddCommentForm,
   ],
   providers: [PostDetailService, PostDetailStoreService],
   templateUrl: './post-detail.html',
@@ -37,19 +33,12 @@ export class PostDetail implements OnInit {
   private route = inject(ActivatedRoute);
   private postDetailService = inject(PostDetailService);
   private destroyRef = inject(DestroyRef);
-  private fb = inject(FormBuilder);
   private titleService = inject(Title);
+  private store = inject(PostDetailStoreService);
 
-  protected store = inject(PostDetailStoreService);
-  protected commentForm: FormGroup;
+  protected post = this.store.post;
+  protected comments = this.store.comments;
   protected readonly maxRating = [1, 2, 3, 4, 5];
-
-  constructor() {
-    this.commentForm = this.fb.group({
-      author: ['', [Validators.required, Validators.minLength(2)]],
-      text: ['', [Validators.required, Validators.minLength(5)]],
-    });
-  }
 
   public ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -65,27 +54,25 @@ export class PostDetail implements OnInit {
     }
   }
 
-  protected onSubmitComment(): void {
-    if (this.commentForm.invalid) return;
-    const id = this.store.post()?.id;
+  protected onCommentSubmit(data: { author: string; text: string }): void {
+    const id = this.post()?.id;
     if (id) {
-      const { author, text } = this.commentForm.value;
       this.postDetailService
-        .addComment(id, author, text)
+        .addComment(id, data.author, data.text)
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(() => this.commentForm.reset());
+        .subscribe();
     }
   }
 
   protected setPostRating(rating: number): void {
-    const id = this.store.post()?.id;
+    const id = this.post()?.id;
     if (id) {
       this.postDetailService.updatePostRating(id, rating).subscribe();
     }
   }
 
   protected changeCommentRating(commentId: number, currentRating: number, delta: number): void {
-    const postId = this.store.post()?.id;
+    const postId = this.post()?.id;
     if (postId) {
       this.postDetailService
         .updateCommentRating(postId, commentId, currentRating + delta)

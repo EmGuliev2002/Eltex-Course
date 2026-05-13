@@ -23,13 +23,13 @@ export class Blog implements OnInit {
   private articlesService = inject(ARTICLES_SERVICE);
   private destroyRef = inject(DestroyRef);
   private titleService = inject(Title);
-  protected store = inject(ArticlesStoreService);
+  private store = inject(ArticlesStoreService);
 
   protected isFormVisible = false;
   protected editingPost: Post | null = null;
 
   protected posts = this.store.articles;
-  protected totalArticles = this.store.totalCount;
+  protected totalCount = this.store.totalCount;
   protected readonly limit = 7;
 
   public ngOnInit(): void {

@@ -7,12 +7,8 @@ export interface ArticlesResponse {
 }
 
 export interface IArticlesService {
-  /**
-   * Получить список статей с учетом пагинации
-   * @param page номер страницы
-   * @param limit количество статей на страницу
-   */
   getArticles(page: number, limit: number): Observable<ArticlesResponse>;
+  getArticleById(id: number): Observable<Post | null>;
   addArticle(article: Omit<Post, 'id' | 'date'>): Observable<Post[]>;
   updateArticle(article: Post): Observable<Post[]>;
   deleteArticle(id: number): Observable<Post[]>;
