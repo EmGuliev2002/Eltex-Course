@@ -39,6 +39,12 @@ export class ArticlesService implements IArticlesService {
     );
   }
 
+  public getArticleById(id: number): Observable<Post | null> {
+    const allArticles = this.getFromStorage();
+    const article = allArticles.find((p) => p.id === id) || null;
+    return of(article);
+  }
+
   public addArticle(data: Omit<Post, 'id' | 'date'>): Observable<Post[]> {
     const allArticles = this.getFromStorage();
     const newPost: Post = {
@@ -50,6 +56,7 @@ export class ArticlesService implements IArticlesService {
         year: 'numeric',
       }),
       img: data.img || 'rickroll.jpg',
+      rating: 0,
     };
 
     const updated = [newPost, ...allArticles];

@@ -14,7 +14,7 @@
     <div class="stats-grid">
       <div class="stat-card">
         <span class="stat-label">Всего статей:</span>
-        <span class="stat-value">{{ store.totalCount() }}</span>
+        <span class="stat-value">{{ totalCount() }}</span>
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@
     }
   </section>
 
-  @if (posts().length < totalArticles()) {
+  @if (posts().length < totalCount()) {
     <div class="pagination">
       <button class="pagination-next" (click)="onShowMore()">
         Больше фильмов →

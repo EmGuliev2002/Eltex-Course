@@ -13,9 +13,9 @@ import { ArticleCard } from '../../article-card/article-card';
   styleUrl: './latest-articles.scss',
 })
 export class LatestArticles implements OnInit {
-  private store = inject(ArticlesStoreService);
-  private articlesService = inject(ARTICLES_SERVICE);
-  private destroyRef = inject(DestroyRef);
+  private readonly store = inject(ArticlesStoreService);
+  private readonly articlesService = inject(ARTICLES_SERVICE);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected latestArticles = computed(() => this.store.articles().slice(0, 2));
 

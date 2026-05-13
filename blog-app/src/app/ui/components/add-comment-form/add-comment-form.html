@@ -1,0 +1,18 @@
+<mat-card class="add-comment-card">
+  <h3>Оставить отзыв</h3>
+  <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Ваше имя</mat-label>
+      <input matInput formControlName="author" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Текст комментария</mat-label>
+      <textarea matInput formControlName="text" rows="4"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="commentForm.invalid">
+      <mat-icon>send</mat-icon> Отправить
+    </button>
+  </form>
+</mat-card>

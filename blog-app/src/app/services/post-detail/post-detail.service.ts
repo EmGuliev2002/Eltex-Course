@@ -1,10 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, of, tap } from 'rxjs';
+import { Observable, of, tap, switchMap, map } from 'rxjs';
 import { PostComment } from '../../models/comment.model';
 import { PostDetailStoreService } from './post-detail-store.service';
-import { ArticlesStoreService } from '../articles/articles-store.service';
+import { ARTICLES_SERVICE } from '../articles/articles-service.token';
 import { Post } from '../../models/post.model';
-import { INITIAL_POSTS } from '../../data/initial-posts';
 
 @Injectable()
 export class PostDetailService {
@@ -12,22 +11,16 @@ export class PostDetailService {
   private readonly storageKey = 'ryan_gosling_blog';
 
   private store = inject(PostDetailStoreService);
-  private globalArticlesStore = inject(ArticlesStoreService);
+  private articlesService = inject(ARTICLES_SERVICE);
 
-  /* Получает пост по ID и его комментарии */
   public getPostWithComments(
     id: number,
   ): Observable<{ post: Post | null; comments: PostComment[] }> {
-    let allArticles = this.globalArticlesStore.articles();
-    if (allArticles.length === 0) {
-      const data = localStorage.getItem(this.storageKey);
-      allArticles = data ? JSON.parse(data) : INITIAL_POSTS;
-    }
-
-    const post = allArticles.find((p) => p.id === id) || null;
-    const comments = this.getCommentsFromLS(id);
-
-    return of({ post, comments }).pipe(
+    return this.articlesService.getArticleById(id).pipe(
+      map((post) => {
+        const comments = this.getCommentsFromLS(id);
+        return { post, comments };
+      }),
       tap((res) => {
         this.store.setPost(res.post);
         this.store.setComments(res.comments);
@@ -35,7 +28,6 @@ export class PostDetailService {
     );
   }
 
-  /* Добавление нового комментария */
   public addComment(postId: number, author: string, text: string): Observable<PostComment[]> {
     const comments = this.getCommentsFromLS(postId);
     const newComment: PostComment = {
@@ -52,7 +44,6 @@ export class PostDetailService {
     return of(updated).pipe(tap((res) => this.store.setComments(res)));
   }
 
-  /* Изменение рейтинга комментария */
   public updateCommentRating(
     postId: number,
     commentId: number,
@@ -65,7 +56,6 @@ export class PostDetailService {
     return of(updated).pipe(tap((res) => this.store.setComments(res)));
   }
 
-  /* Изменение рейтинга статьи */
   public updatePostRating(postId: number, newRating: number): Observable<void> {
     const data = localStorage.getItem(this.storageKey);
     if (data) {

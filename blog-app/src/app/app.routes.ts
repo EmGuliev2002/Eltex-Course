@@ -4,8 +4,22 @@ import { Blog } from './ui/pages/blog/blog';
 import { PostDetail } from './ui/pages/post-detail/post-detail';
 
 export const routes: Routes = [
-  { path: '', component: Home },
-  { path: 'blog', component: Blog },
-  { path: 'blog/:id', component: PostDetail },
-  { path: '**', redirectTo: '' },
+  {
+    path: '',
+    component: Home,
+    title: 'Райан Гослинг - Портфолио',
+  },
+  {
+    path: 'blog',
+    component: Blog,
+    title: 'Фильмография - Райан Гослинг',
+  },
+  {
+    path: 'blog/:id',
+    component: PostDetail,
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];
