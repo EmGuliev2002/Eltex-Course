@@ -77,12 +77,12 @@ export class Blog implements OnInit {
       });
   }
 
-  protected onDeletePost(id: number): void {
+  protected onDeletePost(id: string | number): void {
     this.articlesService
       .deleteArticle(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        if (this.editingPost?.id === id) {
+        if (this.editingPost?.id.toString() === id.toString()) {
           this.onCancelForm();
         }
       });

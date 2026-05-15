@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, of, tap, switchMap, map } from 'rxjs';
+import { Observable, of, tap, map } from 'rxjs';
 import { PostComment } from '../../models/comment.model';
 import { PostDetailStoreService } from './post-detail-store.service';
 import { ARTICLES_SERVICE } from '../articles/articles-service.token';
@@ -14,7 +14,7 @@ export class PostDetailService {
   private articlesService = inject(ARTICLES_SERVICE);
 
   public getPostWithComments(
-    id: number,
+    id: string,
   ): Observable<{ post: Post | null; comments: PostComment[] }> {
     return this.articlesService.getArticleById(id).pipe(
       map((post) => {
@@ -28,7 +28,7 @@ export class PostDetailService {
     );
   }
 
-  public addComment(postId: number, author: string, text: string): Observable<PostComment[]> {
+  public addComment(postId: string, author: string, text: string): Observable<PostComment[]> {
     const comments = this.getCommentsFromLS(postId);
     const newComment: PostComment = {
       id: Date.now(),
@@ -45,7 +45,7 @@ export class PostDetailService {
   }
 
   public updateCommentRating(
-    postId: number,
+    postId: string,
     commentId: number,
     newRating: number,
   ): Observable<PostComment[]> {
@@ -56,12 +56,12 @@ export class PostDetailService {
     return of(updated).pipe(tap((res) => this.store.setComments(res)));
   }
 
-  public updatePostRating(postId: number, newRating: number): Observable<void> {
+  public updatePostRating(postId: string, newRating: number): Observable<void> {
     const data = localStorage.getItem(this.storageKey);
     if (data) {
       const posts = JSON.parse(data);
       const updatedPosts = posts.map((p: Post) =>
-        p.id === postId ? { ...p, rating: newRating } : p,
+        p.id.toString() === postId.toString() ? { ...p, rating: newRating } : p,
       );
       localStorage.setItem(this.storageKey, JSON.stringify(updatedPosts));
     }
@@ -69,12 +69,12 @@ export class PostDetailService {
     return of(void 0);
   }
 
-  private getCommentsFromLS(postId: number): PostComment[] {
+  private getCommentsFromLS(postId: string): PostComment[] {
     const data = localStorage.getItem(`${this.commentsPrefix}${postId}`);
     return data ? JSON.parse(data) : [];
   }
 
-  private saveCommentsToLS(postId: number, comments: PostComment[]): void {
+  private saveCommentsToLS(postId: string, comments: PostComment[]): void {
     localStorage.setItem(`${this.commentsPrefix}${postId}`, JSON.stringify(comments));
   }
 }

@@ -41,7 +41,8 @@ export class PostDetail implements OnInit {
   protected readonly maxRating = [1, 2, 3, 4, 5];
 
   public ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id');
+
     if (id) {
       this.postDetailService
         .getPostWithComments(id)
