@@ -8,6 +8,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Внутренний контейнер формы */
 .form-box {
   background: var(--color-background);
   padding: 3rem 0 4rem 0;
@@ -22,7 +23,17 @@
 }
 
 .article-form {
-  max-width: 60rem;
+  max-width: 80rem;
+}
+
+/* Сетка для полей в одну строку */
+.form-row {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+
+  .flex-1 { flex: 1; }
+  .flex-2 { flex: 2; }
 }
 
 .form-group {
@@ -38,15 +49,24 @@
     color: var(--color-text);
   }
 
-  input, textarea {
+  /* Унификация высоты и стилей для всех полей ввода */
+  input:not([type="file"]), 
+  .file-upload-styled {
     width: 100%;
-    padding: 1.2rem 1.6rem;
+    height: 5.2rem;
+    padding: 0 1.6rem;
     border: 1px solid var(--color-border);
     border-radius: 0.8rem;
     font-size: 1.6rem;
     background-color: var(--color-white);
     color: var(--color-text);
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+
+    &::placeholder {
+      color: #bbb;
+    }
 
     &:focus {
       border-color: var(--color-accent-green);
@@ -56,8 +76,103 @@
       border-color: var(--color-error);
     }
   }
+
+  textarea {
+    width: 100%;
+    padding: 1.2rem 1.6rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.8rem;
+    font-size: 1.6rem;
+    background-color: var(--color-white);
+    color: var(--color-text);
+    
+    &::placeholder { color: #bbb; }
+    &:focus { border-color: var(--color-accent-green); }
+    &.invalid-control { border-color: var(--color-error); }
+  }
 }
 
+/* Стилизация выбора файла */
+.hidden-file-input {
+  display: none;
+}
+
+.file-upload-styled {
+  cursor: pointer;
+  gap: 1rem;
+  color: var(--color-text-light) !important;
+  
+  mat-icon {
+    color: var(--color-accent-green);
+    font-size: 2.2rem;
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .file-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 400;
+  }
+
+  &:hover {
+    border-color: var(--color-accent-green);
+    background-color: #f9fff9;
+  }
+}
+
+/* Настройки для Angular Material Autocomplete */
+.category-field {
+  width: 100%;
+
+  ::ng-deep {
+    .mat-mdc-text-field-wrapper {
+      padding: 0 !important;
+      background-color: transparent !important;
+      height: 5.2rem !important;
+    }
+
+    .mat-mdc-form-field-flex {
+      border: 1px solid var(--color-border) !important;
+      border-radius: 0.8rem !important;
+      background-color: var(--color-white) !important;
+      height: 5.2rem !important;
+      padding: 0 1.6rem !important;
+      align-items: center !important;
+      display: flex !important;
+    }
+
+    .mat-mdc-form-field-infix {
+      padding: 0 !important;
+      min-height: unset !important;
+      display: flex !important;
+      align-items: center !important;
+      height: 100% !important;
+    }
+
+    .mdc-notched-outline { display: none !important; }
+
+    input.mat-mdc-input-element {
+      font-size: 1.6rem !important;
+      color: var(--color-text) !important;
+      height: 100% !important;
+      
+      &::placeholder {
+        color: #bbb !important;
+        opacity: 1;
+      }
+    }
+
+    .mat-mdc-form-field-subscript-wrapper { display: none; }
+  }
+
+  &.mat-focused ::ng-deep .mat-mdc-form-field-flex {
+    border-color: var(--color-accent-green) !important;
+  }
+}
+
+/* Ошибки валидации */
 .error-message {
   color: var(--color-error);
   margin-top: 0.5rem;
@@ -69,6 +184,7 @@
   }
 }
 
+/* Действия формы */
 .form-actions {
   display: flex;
   gap: 1.5rem;
@@ -109,5 +225,13 @@
   &:hover {
     background-color: var(--color-accent-orange);
     color: var(--color-white);
+  }
+}
+
+/* Адаптивность формы */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
   }
 }

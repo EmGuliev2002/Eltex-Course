@@ -12,7 +12,7 @@ import { Post } from '../../../models/post.model';
 })
 export class ArticleCard {
   @Input({ required: true }) public post!: Post;
-  @Output() public delete = new EventEmitter<number>();
+  @Output() public delete = new EventEmitter<string | number>();
   @Output() public edit = new EventEmitter<Post>();
 
   protected onDelete(event: Event): void {

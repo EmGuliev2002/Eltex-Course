@@ -8,8 +8,8 @@ export interface ArticlesResponse {
 
 export interface IArticlesService {
   getArticles(page: number, limit: number): Observable<ArticlesResponse>;
-  getArticleById(id: number): Observable<Post | null>;
-  addArticle(article: Omit<Post, 'id' | 'date'>): Observable<Post[]>;
+  getArticleById(id: string | number): Observable<Post | null>;
+  addArticle(article: any): Observable<Post[]>;
   updateArticle(article: Post): Observable<Post[]>;
-  deleteArticle(id: number): Observable<Post[]>;
+  deleteArticle(id: string | number): Observable<Post[]>;
 }

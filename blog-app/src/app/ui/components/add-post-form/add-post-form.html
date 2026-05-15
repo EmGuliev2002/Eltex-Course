@@ -3,32 +3,72 @@
 
   <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="article-form">
     
-    <div class="form-group">
-      <label for="header">Название фильма / Заголовок</label>
-      <input 
-        id="header" 
-        type="text" 
-        formControlName="title" 
-        placeholder="Например: Съемки в Ла-Ла Ленде"
-        [class.invalid-control]="hasError('title')"
-      />
-      @if (hasError('title')) {
-        <div class="error-message">
-          @for (errorMsg of getControlErrors('title'); track $index) {
-            <small>{{ errorMsg }}</small>
-          }
-        </div>
-      }
+    <div class="form-row">
+      <div class="form-group flex-2">
+        <label for="header">Название фильма</label>
+        <input 
+          id="header" 
+          type="text" 
+          formControlName="title" 
+          placeholder="Например: Съемки в Ла-Ла Ленде"
+          [class.invalid-control]="hasError('title')"
+        />
+        @if (hasError('title')) {
+          <div class="error-message">
+            @for (errorMsg of getControlErrors('title'); track $index) {
+              <small>{{ errorMsg }}</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-group flex-1">
+        <label>Категория</label>
+        <mat-form-field appearance="outline" class="category-field" subscriptSizing="dynamic">
+          <input
+            type="text"
+            placeholder="Драма, Боевик..."
+            matInput
+            formControlName="categoryName"
+            [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            @for (category of filteredCategories(); track category.id) {
+              <mat-option [value]="category.name">
+                {{ category.name }}
+              </mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="imageUrl">Ссылка на фото</label>
-      <input 
-        id="imageUrl" 
-        type="url" 
-        formControlName="img" 
-        placeholder="Например: image.com/image.png" 
-      />
+    <div class="form-row">
+      <div class="form-group flex-1">
+        <label>Загрузить файл</label>
+        <div class="file-upload-container">
+          <input 
+            id="file" 
+            type="file" 
+            class="hidden-file-input"
+            (change)="onFileSelected($event)" 
+            accept="image/*"
+          />
+          <label for="file" class="file-upload-styled">
+            <mat-icon>image</mat-icon>
+            <span class="file-name">{{ selectedFileName() || 'Выбрать фото фильма' }}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group flex-1">
+        <label for="imageUrl">Или ссылка на фото</label>
+        <input 
+          id="imageUrl" 
+          type="url" 
+          formControlName="img" 
+          placeholder="Например: image.com/image.png" 
+        />
+      </div>
     </div>
 
     <div class="form-group">
@@ -37,10 +77,9 @@
         id="text" 
         formControlName="text" 
         placeholder="Расскажите о процессе съемок..." 
-        rows="6"
+        rows="5"
         [class.invalid-control]="hasError('text')"
       ></textarea>
-      
       @if (hasError('text')) {
         <div class="error-message">
           @for (errorMsg of getControlErrors('text'); track $index) {
@@ -51,14 +90,9 @@
     </div>
 
     <div class="form-actions">
-      <button 
-        type="submit" 
-        class="btn-submit" 
-        [disabled]="postForm.invalid"
-      >
+      <button type="submit" class="btn-submit" [disabled]="postForm.invalid">
         {{ saveButtonTitle() }}
       </button>
-      
       <button type="button" class="btn-cancel" (click)="cancel.emit()">Отмена</button>
     </div>
   </form>
