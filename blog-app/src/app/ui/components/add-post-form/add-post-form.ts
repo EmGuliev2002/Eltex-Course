@@ -9,6 +9,7 @@ import {
   computed,
   inject,
   signal,
+  effect,
 } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -16,10 +17,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { startWith } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Post } from '../../../models/post.model';
-import { CategoriesService, Category } from '../../../services/categories/categories.service';
+import { Category } from '../../../models/category.model';
+import { CATEGORIES_SERVICE } from '../../../services/categories/categories-service.token';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -44,19 +44,16 @@ export class AddPostForm implements OnInit, OnChanges {
   @Output() public cancel = new EventEmitter<void>();
 
   private fb = inject(FormBuilder);
-  private categoriesService = inject(CategoriesService);
+  private categoriesService = inject(CATEGORIES_SERVICE);
 
   protected postForm: FormGroup;
   protected allCategories = signal<Category[]>([]);
   protected selectedFileName = signal<string>('');
+  protected categoryValue = signal<string>('');
 
   protected filteredCategories = computed(() => {
     const query = (this.categoryValue() || '').toLowerCase();
     return this.allCategories().filter((c) => c.name.toLowerCase().includes(query));
-  });
-
-  private categoryValue = toSignal(this.fb.control('').valueChanges.pipe(startWith('')), {
-    initialValue: '',
   });
 
   protected formTitle = computed(() =>
@@ -75,7 +72,21 @@ export class AddPostForm implements OnInit, OnChanges {
     });
 
     this.postForm.get('categoryName')?.valueChanges.subscribe((v) => {
-      (this as any).categoryValue.set(v);
+      this.categoryValue.set(v || '');
+    });
+
+    effect(() => {
+      const categories = this.allCategories();
+      const post = this.editPost();
+      if (post) {
+        const editedPostCategory = categories.find((category) => category.id === post.categoryId);
+        this.postForm.patchValue(
+          { categoryName: editedPostCategory?.name || '' },
+          { emitEvent: false },
+        );
+      } else {
+        this.postForm.patchValue({ categoryName: '' }, { emitEvent: false });
+      }
     });
   }
 

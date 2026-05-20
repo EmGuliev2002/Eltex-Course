@@ -6,6 +6,32 @@ import { Post } from '../../models/post.model';
 import { IArticlesService, ArticlesResponse } from './articles-service.interface';
 import { ArticlesStoreService } from './articles-store.service';
 
+export interface BackendArticle {
+  id: string;
+  title: string;
+  content: string;
+  imgSrc: string | null;
+  categoryId: string | null;
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BackendArticlesResponse {
+  items: BackendArticle[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface CreateArticleData {
+  title: string;
+  text: string;
+  categoryId?: string;
+  imageFile?: File | null;
+  img?: string;
+}
+
 @Injectable()
 export class ApiArticlesService implements IArticlesService {
   private readonly pageKey = 'blog_active_page';
@@ -23,22 +49,24 @@ export class ApiArticlesService implements IArticlesService {
       .set('limit', limit.toString())
       .set('cumulative', 'true');
 
-    return this.http.get<any>(`${environment.apiUrl}/articles`, { params }).pipe(
-      map((res) => ({
-        articles: res.items.map((item: any) => this.mapPost(item)),
-        totalCount: res.total,
-      })),
-      tap((res) => this.updateStore(res, page)),
-    );
+    return this.http
+      .get<BackendArticlesResponse>(`${environment.apiUrl}/articles`, { params })
+      .pipe(
+        map((res: BackendArticlesResponse) => ({
+          articles: res.items.map((item: BackendArticle) => this.mapPost(item)),
+          totalCount: res.total,
+        })),
+        tap((res: ArticlesResponse) => this.updateStore(res, page)),
+      );
   }
 
   public getArticleById(id: number | string): Observable<Post | null> {
     return this.http
-      .get<any>(`${environment.apiUrl}/articles/${id}`)
-      .pipe(map((item) => this.mapPost(item)));
+      .get<BackendArticle>(`${environment.apiUrl}/articles/${id}`)
+      .pipe(map((item: BackendArticle) => this.mapPost(item)));
   }
 
-  public addArticle(data: any): Observable<Post[]> {
+  public addArticle(data: CreateArticleData): Observable<Post[]> {
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('content', data.text);
@@ -53,7 +81,7 @@ export class ApiArticlesService implements IArticlesService {
       formData.append('imgSrc', data.img);
     }
 
-    return this.http.post<any>(`${environment.apiUrl}/articles`, formData).pipe(
+    return this.http.post<BackendArticle>(`${environment.apiUrl}/articles`, formData).pipe(
       tap(() => this.refresh()),
       map(() => []),
     );
@@ -61,7 +89,7 @@ export class ApiArticlesService implements IArticlesService {
 
   public updateArticle(updatedPost: Post): Observable<Post[]> {
     return this.http
-      .patch(`${environment.apiUrl}/articles/${updatedPost.id}`, {
+      .patch<BackendArticle>(`${environment.apiUrl}/articles/${updatedPost.id}`, {
         title: updatedPost.title,
         content: updatedPost.text,
         categoryId: updatedPost.categoryId,
@@ -73,13 +101,13 @@ export class ApiArticlesService implements IArticlesService {
   }
 
   public deleteArticle(id: number | string): Observable<Post[]> {
-    return this.http.delete(`${environment.apiUrl}/articles/${id}`).pipe(
+    return this.http.delete<void>(`${environment.apiUrl}/articles/${id}`).pipe(
       tap(() => this.refresh()),
       map(() => []),
     );
   }
 
-  private mapPost(item: any): Post {
+  private mapPost(item: BackendArticle): Post {
     return {
       id: item.id,
       title: item.title,
@@ -87,7 +115,7 @@ export class ApiArticlesService implements IArticlesService {
       date: new Date(item.createdAt).toLocaleDateString('ru-RU'),
       img: item.imgSrc ? item.imgSrc : 'rickroll.jpg',
       rating: item.rating,
-      categoryId: item.categoryId,
+      categoryId: item.categoryId || undefined,
     };
   }
 

@@ -2,16 +2,11 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Category } from '../../models/category.model';
+import { ICategoriesService } from './categories-service.interface';
 
-export interface Category {
-  id: string;
-  name: string;
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-export class CategoriesService {
+@Injectable()
+export class ApiCategoriesService implements ICategoriesService {
   private http = inject(HttpClient);
 
   public getAll(): Observable<Category[]> {
