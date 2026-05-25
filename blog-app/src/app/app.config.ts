@@ -1,6 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, inject } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; 
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
 import { ARTICLES_SERVICE } from './services/articles/articles-service.token';
@@ -9,6 +10,10 @@ import { LocalStorageArticlesService } from './services/articles/local-storage-a
 import { CATEGORIES_SERVICE } from './services/categories/categories-service.token';
 import { ApiCategoriesService } from './services/categories/categories.service';
 import { LocalStorageCategoriesService } from './services/categories/local-storage-categories.service';
+import { AUTH_SERVICE } from './services/auth/auth-service.token';
+import { ApiAuthService } from './services/auth/api-auth.service';
+import { LocalStorageAuthService } from './services/auth/local-storage-auth.service';
+import { authInterceptor } from './interceptors/auth.interceptor';
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
@@ -17,7 +22,8 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
+    provideAnimationsAsync(), 
     {
       provide: ARTICLES_SERVICE,
       useClass: environment.useLocalStorage ? LocalStorageArticlesService : ApiArticlesService,
@@ -25,6 +31,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: CATEGORIES_SERVICE,
       useClass: environment.useLocalStorage ? LocalStorageCategoriesService : ApiCategoriesService,
+    },
+    {
+      provide: AUTH_SERVICE,
+      useClass: environment.useLocalStorage ? LocalStorageAuthService : ApiAuthService,
     },
     provideApollo(() => {
       const httpLink = inject(HttpLink);

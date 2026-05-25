@@ -1,10 +1,36 @@
 <header class="container">
   <div class="logo">Ryan-folio</div>
-  <nav>
+  <nav class="nav-container">
     <ul class="nav-menu">
       <li><a routerLink="/" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active">Обо мне</a></li>
       <li><a routerLink="/blog" routerLinkActive="active">Фильмография</a></li>
       <li><a href="#contact">Контакты</a></li>
     </ul>
+
+    <div class="auth-section">
+      @if (isLoggedIn()) {
+        <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="profile-btn" title="Мой профиль">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #profileMenu="matMenu" xPosition="before" class="custom-profile-menu">
+          <div class="menu-user-info">
+            <span class="user-role-badge" [class.admin-badge]="currentUser()?.role === 'admin'">
+              {{ currentUser()?.role === 'admin' ? 'Администратор' : 'Пользователь' }}
+            </span>
+            <p class="user-name">{{ currentUser()?.username }}</p>
+            <p class="user-email">{{ currentUser()?.email }}</p>
+          </div>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="onLogout()" class="logout-menu-item">
+            <mat-icon>logout</mat-icon>
+            <span>Выход</span>
+          </button>
+        </mat-menu>
+      } @else {
+        <button mat-button class="login-btn" (click)="openAuthDialog()">
+          <mat-icon>login</mat-icon> Вход
+        </button>
+      }
+    </div>
   </nav>
 </header>

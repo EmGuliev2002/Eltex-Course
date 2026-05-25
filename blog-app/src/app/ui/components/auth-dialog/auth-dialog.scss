@@ -1,0 +1,199 @@
+input.mat-mdc-input-element {
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active,
+  &:autofill,
+  &:autofill:hover,
+  &:autofill:focus,
+  &:autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-white) inset !important;
+    box-shadow: 0 0 0 1000px var(--color-white) inset !important;
+    -webkit-text-fill-color: var(--color-text) !important;
+    color: var(--color-text) !important;
+    transition: background-color 5000s ease-in-out 0s !important;
+  }
+}
+
+app-auth-dialog {
+  display: block;
+  width: 100%;
+
+  [mat-dialog-title] {
+    margin: 0;
+    padding: 2.4rem 2.4rem 1rem 2.4rem !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .dialog-content {
+    padding: 1.5rem 2.4rem 2rem 2.4rem !important;
+    min-width: 360px;
+    max-width: 440px;
+    overflow-y: auto;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .checkbox-container {
+    margin: 0.4rem 0 1rem 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    mat-checkbox {
+      width: 100%;
+    }
+
+    .mdc-checkbox {
+      --mdc-checkbox-selected-icon-color: var(--color-accent-green);
+      --mdc-checkbox-selected-focus-icon-color: var(--color-accent-green);
+      --mdc-checkbox-selected-hover-icon-color: var(--color-accent-green);
+      --mdc-checkbox-unselected-icon-color: var(--color-border);
+    }
+    
+    .mdc-form-field {
+      display: flex !important;
+      align-items: center !important;
+      flex-direction: row !important;
+      
+      label {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 1.4rem !important;
+        color: var(--color-text-light) !important;
+        font-weight: 500;
+        padding-left: 0.6rem !important;
+        line-height: 1.4 !important;
+      }
+    }
+  }
+
+  .error-text {
+    color: var(--color-error, #ff4d4f);
+    font-size: 1.3rem;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .hidden-submit {
+    display: none;
+  }
+
+  .dialog-actions {
+    padding: 1.6rem 2.4rem 2.4rem 2.4rem !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 1.2rem !important;
+    margin: 0;
+    border-top: 1px solid var(--color-border);
+    width: 100%;
+    box-sizing: border-box;
+    
+    button {
+      flex: 1 !important;
+      width: auto !important;
+      font-family: 'Inter', sans-serif !important;
+      font-size: 1.4rem !important;
+      height: 4.6rem !important;
+      border-radius: 2.3rem !important;
+      font-weight: 600 !important;
+      padding: 0 1.2rem !important;
+      box-shadow: none !important;
+      transition: all 0.2s ease;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    button[mat-button] {
+      color: var(--color-text-light);
+      background-color: var(--color-gray);
+      border: 1px solid var(--color-border);
+      
+      &:hover {
+        background-color: #e8e8e8;
+        color: var(--color-primary);
+      }
+    }
+
+    button[mat-raised-button] {
+      background-color: var(--color-accent-green) !important;
+      color: var(--color-white) !important;
+
+      &:hover:not(:disabled) {
+        background-color: var(--color-green-hover) !important;
+      }
+
+      &:disabled {
+        background-color: var(--color-gray) !important;
+        color: #aaa !important;
+        border: 1px solid var(--color-border) !important;
+      }
+    }
+  }
+
+  .mat-mdc-form-field {
+    width: 100%;
+    font-size: 1.5rem !important;
+    --mdc-outlined-text-field-outline-color: var(--color-border);
+    --mdc-outlined-text-field-hover-outline-color: var(--color-accent-green);
+    --mdc-outlined-text-field-focus-outline-color: var(--color-accent-green);
+    --mdc-outlined-text-field-outline-width: 1px;
+    --mdc-outlined-text-field-focus-outline-width: 1.5px;
+    --mdc-outlined-text-field-hover-outline-width: 1px;
+    --mdc-outlined-text-field-label-text-color: var(--color-text-light);
+    --mdc-outlined-text-field-focus-label-text-color: var(--color-accent-green);
+    --mdc-outlined-text-field-hover-label-text-color: var(--color-accent-green);
+
+    .mat-mdc-text-field-wrapper {
+      background-color: transparent !important;
+      padding: 0 1.6rem !important;
+    }
+
+    .mat-mdc-form-field-subscript-wrapper {
+      padding: 0 !important;
+    }
+    
+    .mat-mdc-form-field-error {
+      font-size: 1.3rem !important;
+      font-family: 'Inter', sans-serif !important;
+      margin-top: 0.4rem !important;
+    }
+
+    input.mat-mdc-input-element {
+      font-size: 1.5rem !important;
+      font-family: 'Inter', sans-serif !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    .mdc-floating-label {
+      font-size: 1.5rem !important;
+      font-family: 'Inter', sans-serif !important;
+    }
+  }
+}
+
+.cdk-overlay-pane {
+  .mat-mdc-dialog-container {
+    border-radius: 2rem !important;
+    box-shadow: 0 1.5rem 5rem rgba(0, 0, 0, 0.15) !important;
+  }
+}

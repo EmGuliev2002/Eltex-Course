@@ -69,7 +69,15 @@
         }
       </div>
 
-      <app-add-comment-form (submitted)="onCommentSubmit($event)"></app-add-comment-form>
+      @if (isLoggedIn()) {
+        <app-add-comment-form (submitted)="onCommentSubmit($event)"></app-add-comment-form>
+      } @else {
+        <mat-card style="padding: 2.5rem; border-radius: 1.6rem; border: 1px dashed var(--color-border); box-shadow: none; text-align: center; background-color: var(--color-gray);">
+          <p style="font-size: 1.6rem; color: var(--color-text-light); margin: 0;">
+            Пожалуйста, воспользуйтесь кнопкой <strong>Вход</strong> в шапке сайта, чтобы авторизоваться и оставить свой отзыв к этому фильму.
+          </p>
+        </mat-card>
+      }
       
     </section>
   } @else {

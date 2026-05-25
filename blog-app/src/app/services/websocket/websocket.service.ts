@@ -1,14 +1,15 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { WebSocketEvent, WebSocketEventData } from './websocket.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WebsocketService {
   private socket: Socket | null = null;
-  private eventSubject = new Subject<{ eventName: string; data: any }>();
+  private eventSubject = new Subject<WebSocketEvent>();
 
   public readonly events$ = this.eventSubject.asObservable();
 
@@ -37,15 +38,15 @@ export class WebsocketService {
         console.error('Ошибка подключения к WebSocket:', error);
       });
 
-      this.socket.on('comment-created', (data) => {
+      this.socket.on('comment-created', (data: WebSocketEventData) => {
         this.eventSubject.next({ eventName: 'comment-created', data });
       });
 
-      this.socket.on('comment-rating-changed', (data) => {
+      this.socket.on('comment-rating-changed', (data: WebSocketEventData) => {
         this.eventSubject.next({ eventName: 'comment-rating-changed', data });
       });
 
-      this.socket.on('article-rating-changed', (data) => {
+      this.socket.on('article-rating-changed', (data: WebSocketEventData) => {
         this.eventSubject.next({ eventName: 'article-rating-changed', data });
       });
     } catch (err) {

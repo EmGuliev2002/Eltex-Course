@@ -1,72 +1,67 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, tap, map } from 'rxjs';
-import { Apollo, gql } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { Post } from '../../models/post.model';
 import { PostComment } from '../../models/comment.model';
 import { PostDetailStoreService } from './post-detail-store.service';
 import { PostDetailService } from './post-detail.service';
+import {
+  GET_POST_WITH_COMMENTS,
+  CREATE_COMMENT,
+  COMMENT_RATING_UP,
+  COMMENT_RATING_DOWN,
+  VOTE_ARTICLE,
+} from './post-detail.queries';
 
-const GET_POST_WITH_COMMENTS = gql`
-  query GetPostWithComments($id: ID!) {
-    article(id: $id) {
-      id
-      title
-      content
-      imgSrc
-      avgRating
-      rating
-      createdAt
-      comments {
-        id
-        username
-        content
-        rating
-        createdAt
-      }
-    }
-  }
-`;
+interface GraphQLComment {
+  id: string;
+  username: string;
+  content: string;
+  rating: number;
+  createdAt: string;
+}
 
-const CREATE_COMMENT = gql`
-  mutation CreateComment($createComment: CreateCommentInput!) {
-    createComment(createComment: $createComment) {
-      id
-      username
-      content
-      rating
-      createdAt
-      articleId
-    }
-  }
-`;
+interface GraphQLArticle {
+  id: string;
+  title: string;
+  content: string;
+  imgSrc: string | null;
+  avgRating: number;
+  rating: number;
+  createdAt: string;
+  categoryId?: string | null;
+  comments: GraphQLComment[];
+}
 
-const COMMENT_RATING_UP = gql`
-  mutation CommentRatingUp($id: ID!) {
-    commentRatingUp(id: $id) {
-      id
-      rating
-    }
-  }
-`;
+interface GetPostWithCommentsResponse {
+  article: GraphQLArticle | null;
+}
 
-const COMMENT_RATING_DOWN = gql`
-  mutation CommentRatingDown($id: ID!) {
-    commentRatingDown(id: $id) {
-      id
-      rating
-    }
-  }
-`;
+interface CreateCommentResponse {
+  createComment: GraphQLComment & { articleId: string };
+}
 
-const VOTE_ARTICLE = gql`
-  mutation VoteArticle($id: ID!, $vote: Float!) {
-    voteArticle(id: $id, vote: $vote) {
-      id
-      avgRating
-      rating
-    }
-  }
-`;
+interface CommentRatingUpResponse {
+  commentRatingUp: {
+    id: string;
+    rating: number;
+  };
+}
+
+interface CommentRatingDownResponse {
+  commentRatingDown: {
+    id: string;
+    rating: number;
+  };
+}
+
+interface VoteArticleResponse {
+  voteArticle: {
+    id: string;
+    avgRating: number;
+    rating: number;
+  };
+}
 
 @Injectable()
 export class ApiPostDetailService implements PostDetailService {
@@ -77,41 +72,15 @@ export class ApiPostDetailService implements PostDetailService {
     id: string,
   ): Observable<{ post: Post | null; comments: PostComment[] }> {
     return this.apollo
-      .query<any>({
+      .query<GetPostWithCommentsResponse>({
         query: GET_POST_WITH_COMMENTS,
         variables: { id },
         fetchPolicy: 'network-only',
       })
       .pipe(
         map((res) => {
-          const article = res.data.article;
-          if (!article) {
-            return { post: null, comments: [] };
-          }
-
-          const post: Post = {
-            id: article.id,
-            title: article.title,
-            text: article.content,
-            date: new Date(article.createdAt).toLocaleDateString('ru-RU'),
-            img: article.imgSrc ? article.imgSrc : 'rickroll.jpg',
-            // 5-звездочный рейтинг соответствует avgRating в сущности на бэкенде
-            rating:
-              article.avgRating !== undefined && article.avgRating !== null
-                ? article.avgRating
-                : article.rating,
-            categoryId: article.categoryId || undefined,
-          };
-
-          const comments: PostComment[] = (article.comments || []).map((c: any) => ({
-            id: c.id,
-            author: c.username,
-            text: c.content,
-            date: new Date(c.createdAt).toLocaleDateString('ru-RU'),
-            rating: c.rating,
-          }));
-
-          return { post, comments };
+          const article = res.data ? res.data.article : null;
+          return this.mapPostAndComments(article);
         }),
         tap((res) => {
           this.store.setPost(res.post);
@@ -122,7 +91,7 @@ export class ApiPostDetailService implements PostDetailService {
 
   public addComment(postId: string, author: string, text: string): Observable<PostComment[]> {
     return this.apollo
-      .mutate<any>({
+      .mutate<CreateCommentResponse>({
         mutation: CREATE_COMMENT,
         variables: {
           createComment: {
@@ -133,20 +102,8 @@ export class ApiPostDetailService implements PostDetailService {
         },
       })
       .pipe(
-        map((res) => {
-          const newCommentData = res.data.createComment;
-          const newComment: PostComment = {
-            id: newCommentData.id,
-            author: newCommentData.username,
-            text: newCommentData.content,
-            date: new Date(newCommentData.createdAt).toLocaleDateString('ru-RU'),
-            rating: newCommentData.rating,
-          };
-
-          const currentComments = this.store.comments();
-          const updated = [...currentComments, newComment];
-          this.store.setComments(updated);
-          return updated;
+        map(() => {
+          return this.store.comments();
         }),
       );
   }
@@ -161,7 +118,7 @@ export class ApiPostDetailService implements PostDetailService {
     const isUp = targetComment ? newRating > targetComment.rating : true;
 
     return this.apollo
-      .mutate<any>({
+      .mutate<CommentRatingUpResponse | CommentRatingDownResponse>({
         mutation: isUp ? COMMENT_RATING_UP : COMMENT_RATING_DOWN,
         variables: {
           id: commentId.toString(),
@@ -169,9 +126,19 @@ export class ApiPostDetailService implements PostDetailService {
       })
       .pipe(
         map((res) => {
-          const updatedComment = isUp ? res.data.commentRatingUp : res.data.commentRatingDown;
+          let updatedRating = newRating;
+          const data = res.data;
+
+          if (data) {
+            if ('commentRatingUp' in data && data.commentRatingUp) {
+              updatedRating = data.commentRatingUp.rating;
+            } else if ('commentRatingDown' in data && data.commentRatingDown) {
+              updatedRating = data.commentRatingDown.rating;
+            }
+          }
+
           const updated = currentComments.map((c) =>
-            c.id.toString() === commentId.toString() ? { ...c, rating: updatedComment.rating } : c,
+            c.id.toString() === commentId.toString() ? { ...c, rating: updatedRating } : c,
           );
           this.store.setComments(updated);
           return updated;
@@ -181,7 +148,7 @@ export class ApiPostDetailService implements PostDetailService {
 
   public updatePostRating(postId: string, newRating: number): Observable<void> {
     return this.apollo
-      .mutate<any>({
+      .mutate<VoteArticleResponse>({
         mutation: VOTE_ARTICLE,
         variables: {
           id: postId,
@@ -190,14 +157,48 @@ export class ApiPostDetailService implements PostDetailService {
       })
       .pipe(
         map((res) => {
-          const updatedArticle = res.data.voteArticle;
-          const rating =
-            updatedArticle.avgRating !== undefined && updatedArticle.avgRating !== null
-              ? updatedArticle.avgRating
-              : updatedArticle.rating;
-          this.store.updatePostRating(rating);
+          const updatedArticle = res.data?.voteArticle;
+          if (updatedArticle) {
+            const rating =
+              updatedArticle.avgRating !== undefined && updatedArticle.avgRating !== null
+                ? updatedArticle.avgRating
+                : updatedArticle.rating;
+            this.store.updatePostRating(rating);
+          }
           return void 0;
         }),
       );
+  }
+
+  private mapPostAndComments(article: GraphQLArticle | null): {
+    post: Post | null;
+    comments: PostComment[];
+  } {
+    if (!article) {
+      return { post: null, comments: [] };
+    }
+
+    const post: Post = {
+      id: article.id,
+      title: article.title,
+      text: article.content,
+      date: new Date(article.createdAt).toLocaleDateString('ru-RU'),
+      img: article.imgSrc ? article.imgSrc : 'rickroll.jpg',
+      rating:
+        article.avgRating !== undefined && article.avgRating !== null
+          ? article.avgRating
+          : article.rating,
+      categoryId: article.categoryId || undefined,
+    };
+
+    const comments: PostComment[] = (article.comments || []).map((c) => ({
+      id: c.id,
+      author: c.username,
+      text: c.content,
+      date: new Date(c.createdAt).toLocaleDateString('ru-RU'),
+      rating: c.rating,
+    }));
+
+    return { post, comments };
   }
 }
