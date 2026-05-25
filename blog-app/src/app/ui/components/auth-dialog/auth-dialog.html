@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>{{ isLoginMode ? 'Войти' : 'Регистрация' }}</h2>
+
+<mat-dialog-content class="dialog-content">
+  <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width" subscriptSizing="dynamic">
+      <mat-label>Логин</mat-label>
+      <input matInput formControlName="username" placeholder="Введите ваш логин" />
+      @if (authForm.get('username')?.hasError('required') && authForm.get('username')?.touched) {
+        <mat-error>Логин обязателен</mat-error>
+      }
+    </mat-form-field>
+
+    @if (!isLoginMode) {
+      <mat-form-field appearance="outline" class="full-width" subscriptSizing="dynamic">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="example@domain.com" />
+        @if (authForm.get('email')?.hasError('required') && authForm.get('email')?.touched) {
+          <mat-error>Email обязателен</mat-error>
+        }
+        @if (authForm.get('email')?.hasError('email') && authForm.get('email')?.touched) {
+          <mat-error>Некорректный email</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="checkbox-container">
+        <mat-checkbox formControlName="isAdmin">Зарегистрировать как Администратора</mat-checkbox>
+      </div>
+    }
+
+    <mat-form-field appearance="outline" class="full-width" subscriptSizing="dynamic">
+      <mat-label>Пароль</mat-label>
+      <input matInput type="password" formControlName="password" placeholder="Введите пароль" />
+      @if (authForm.get('password')?.hasError('required') && authForm.get('password')?.touched) {
+        <mat-error>Пароль обязателен</mat-error>
+      }
+      @if (authForm.get('password')?.hasError('minlength') && authForm.get('password')?.touched) {
+        <mat-error>Минимум 6 символов</mat-error>
+      }
+    </mat-form-field>
+
+    @if (errorMessage) {
+      <div class="error-text">{{ errorMessage }}</div>
+    }
+
+    <button type="submit" class="hidden-submit"></button>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button (click)="toggleMode()">
+    {{ isLoginMode ? 'Регистрация' : 'Есть аккаунт? Войти' }}
+  </button>
+  <button mat-raised-button color="primary" [disabled]="authForm.invalid" (click)="onSubmit()">
+    {{ isLoginMode ? 'Вход' : 'Зарегистрироваться' }}
+  </button>
+</mat-dialog-actions>

@@ -1,4 +1,4 @@
-<aside class="admin-panel">
+<aside class="admin-panel" *appHasRole="'admin'">
   <button mat-icon-button color="primary" title="Добавить статью" (click)="toggleForm()">
     <mat-icon>add_circle</mat-icon>
   </button>

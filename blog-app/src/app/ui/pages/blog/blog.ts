@@ -9,11 +9,12 @@ import { ArticleCard } from '../../components/article-card/article-card';
 import { AddPostForm } from '../../components/add-post-form/add-post-form';
 import { ARTICLES_SERVICE } from '../../../services/articles/articles-service.token';
 import { ArticlesStoreService } from '../../../services/articles/articles-store.service';
+import { HasRoleDirective } from '../../../directives/has-role.directive';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, ArticleCard, AddPostForm, MatIconModule, MatButtonModule],
+  imports: [CommonModule, ArticleCard, AddPostForm, MatIconModule, MatButtonModule, HasRoleDirective,],
   templateUrl: './blog.html',
   styleUrl: './blog.scss',
 })

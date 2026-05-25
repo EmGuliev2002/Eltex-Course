@@ -17,6 +17,13 @@ import { AddCommentForm } from '../../components/add-comment-form/add-comment-fo
 import { WebsocketService } from '../../../services/websocket/websocket.service';
 import { environment } from '../../../../environments/environment';
 import { PostComment } from '../../../models/comment.model';
+import { AUTH_SERVICE } from '../../../services/auth/auth-service.token';
+import {
+  WebSocketEventData,
+  CommentCreatedPayload,
+  CommentRatingChangedPayload,
+  ArticleRatingChangedPayload,
+} from '../../../services/websocket/websocket.types';
 
 @Component({
   selector: 'app-post-detail',
@@ -47,10 +54,14 @@ export class PostDetail implements OnInit, OnDestroy {
   private destroyRef = inject(DestroyRef);
   private titleService = inject(Title);
   private store = inject(PostDetailStoreService);
+  private authService = inject(AUTH_SERVICE);
 
   protected post = this.store.post;
   protected comments = this.store.comments;
   protected readonly maxRating = [1, 2, 3, 4, 5];
+
+  protected currentUser = this.authService.currentUser;
+  protected isLoggedIn = this.authService.isLoggedIn;
 
   private articleId: string | null = null;
 
@@ -83,19 +94,25 @@ export class PostDetail implements OnInit, OnDestroy {
     }
   }
 
-  private handleWebSocketEvent(eventName: string, data: any): void {
+  private handleWebSocketEvent(
+    eventName: 'comment-created' | 'comment-rating-changed' | 'article-rating-changed',
+    data: WebSocketEventData,
+  ): void {
     if (!data || !data.payload) return;
     const payload = data.payload;
 
     switch (eventName) {
       case 'comment-created': {
+        const p = payload as CommentCreatedPayload;
+        if (p.articleId !== this.articleId) return;
+
         const currentComments = this.store.comments();
-        if (!currentComments.some((c) => c.id.toString() === payload.commentId.toString())) {
+        if (!currentComments.some((c) => c.id.toString() === p.commentId.toString())) {
           const newComment: PostComment = {
-            id: payload.commentId,
-            author: payload.username,
-            text: payload.content,
-            date: new Date(payload.createdAt).toLocaleDateString('ru-RU'),
+            id: p.commentId,
+            author: p.username,
+            text: p.content,
+            date: new Date(p.createdAt).toLocaleDateString('ru-RU'),
             rating: 0,
           };
           this.store.setComments([newComment, ...currentComments]);
@@ -104,16 +121,22 @@ export class PostDetail implements OnInit, OnDestroy {
       }
 
       case 'comment-rating-changed': {
+        const p = payload as CommentRatingChangedPayload;
+        if (p.articleId !== this.articleId) return;
+
         const currentComments = this.store.comments();
         const updated = currentComments.map((c) =>
-          c.id.toString() === payload.commentId.toString() ? { ...c, rating: payload.rating } : c,
+          c.id.toString() === p.commentId.toString() ? { ...c, rating: p.rating } : c,
         );
         this.store.setComments(updated);
         break;
       }
 
       case 'article-rating-changed': {
-        this.store.updatePostRating(payload.rating);
+        const p = payload as ArticleRatingChangedPayload;
+        if (p.articleId !== this.articleId) return;
+
+        this.store.updatePostRating(p.rating);
         break;
       }
     }

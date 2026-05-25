@@ -1,5 +1,5 @@
 <article class="article-card">
-  <div class="card-actions">
+  <div *appHasRole="'admin'" class="card-actions">
     <button class="action-btn edit-btn" title="Редактировать статью" (click)="onEdit($event)">
       <mat-icon>edit</mat-icon>
     </button>

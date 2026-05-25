@@ -1,10 +1,16 @@
 <mat-card class="add-comment-card">
   <h3>Оставить отзыв</h3>
   <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Ваше имя</mat-label>
-      <input matInput formControlName="author" />
-    </mat-form-field>
+    @if (!isLoggedIn()) {
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Ваше имя</mat-label>
+        <input matInput formControlName="author" />
+      </mat-form-field>
+    } @else {
+      <div class="user-notified">
+        <p>Вы комментируете как: <strong>{{ currentUser()?.username }}</strong></p>
+      </div>
+    }
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Текст комментария</mat-label>
